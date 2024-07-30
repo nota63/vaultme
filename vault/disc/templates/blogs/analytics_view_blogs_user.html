@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Analytics Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5; /* Light background */
+            color: #333; /* Dark text */
+            margin: 0;
+            padding: 0;
+            font-size: 14px; /* Reduced font size */
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            padding-top: 20px;
+        }
+        h1 {
+            font-size: 24px; /* Reduced font size */
+        }
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Reduced space between cards */
+        }
+        .card {
+            background: #ffffff; /* Card background color */
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Lighter shadow */
+            padding: 10px; /* Reduced padding */
+            flex: 1 1 22%; /* Slightly wider cards */
+            min-width: 200px; /* Minimum width of cards */
+            height: 200px; /* Reduced height */
+            overflow: hidden; /* Hide overflow content */
+        }
+        .card-header {
+            font-weight: 700;
+            margin-bottom: 8px; /* Reduced margin */
+            font-size: 16px; /* Reduced font size */
+        }
+        .chart-container {
+            position: relative;
+            height: 150px; /* Reduced height */
+        }
+        .btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 6px 12px; /* Reduced padding */
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            margin-top: 10px; /* Reduced margin */
+            font-size: 8px; /* Reduced font size */
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .filter-container {
+            margin-top: 15px; /* Reduced margin */
+            padding: 10px; /* Reduced padding */
+            background-color: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Lighter shadow */
+            font-size: 8px; /* Reduced font size */
+        }
+        .filter-container label {
+            margin-right: 8px; /* Reduced margin */
+        }
+        .filter-container input {
+            margin-right: 8px; /* Reduced margin */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Blog Analytics Dashboard</h1>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-header">Total Blogs</div>
+                <div class="chart-container">
+                    <canvas id="totalBlogsChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Total Comments</div>
+                <div class="chart-container">
+                    <canvas id="totalCommentsChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Active vs Inactive Blogs</div>
+                <div class="chart-container">
+                    <canvas id="activeInactiveBlogsChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Blogs per User</div>
+                <div class="chart-container">
+                    <canvas id="blogsPerUserChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function createChart(ctx, type, labels, data, backgroundColors) {
+            new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        var ctx1 = document.getElementById('totalBlogsChart').getContext('2d');
+        createChart(ctx1, 'bar', ['Total Blogs'], [{{ total_blogs }}], ['#FFCE56']);
+
+        var ctx2 = document.getElementById('totalCommentsChart').getContext('2d');
+        createChart(ctx2, 'bar', ['Total Comments'], [{{ total_comments }}], ['#FF6384']);
+
+        var ctx3 = document.getElementById('activeInactiveBlogsChart').getContext('2d');
+        createChart(ctx3, 'doughnut', ['Active', 'Inactive'],
+            [{{ active_blogs }}, {{ inactive_blogs }}],
+            ['#36A2EB', '#FF6384']);
+
+        var ctx4 = document.getElementById('blogsPerUserChart').getContext('2d');
+        createChart(ctx4, 'bar', [{% for item in blogs_per_user %}'{{ item.user__username }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+            [{% for item in blogs_per_user %}{{ item.count }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+            ['#FF6384']);
+
+        function filterData() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            // Fetch and update data based on selected date range
+            fetch(`/api/analytics?start_date=${startDate}&end_date=${endDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Update charts with the filtered data
+                    updateCharts(data);
+                });
+        }
+
+        function updateCharts(data) {
+            // Update chart data based on the filtered results
+            // This function needs implementation based on how your data is structured
+        }
+    </script>
+</body>
+</html>

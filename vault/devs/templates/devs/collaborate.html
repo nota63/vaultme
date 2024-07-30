@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Collaborate</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@400;700&display=swap">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .content {
+            max-width: 600px; /* Adjusted width */
+            width: 100%;
+            padding: 15px; /* Reduced padding */
+            background-color: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        h2, h3, h1 {
+            font-family: 'Playfair Display', serif;
+            color: #f2f2f2;
+            margin: 0;
+        }
+        h2 {
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 1.3em; /* Compact font size */
+        }
+        h3 {
+            margin: 15px 0;
+            text-align: left;
+            font-weight: normal;
+            line-height: 1.4;
+            font-size: 0.9em; /* Compact font size */
+        }
+        h1 {
+            color: #4CAF50;
+            margin: 15px 0;
+            font-size: 1.1em; /* Compact font size */
+            text-align: center;
+        }
+        strong {
+            display: block;
+            margin: 8px 0; /* Reduced margin */
+            color: #a8a8a8;
+            font-size: 0.9em; /* Compact font size */
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* Reduced gap */
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px; /* Reduced padding */
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em; /* Compact font size */
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input, textarea {
+            padding: 6px; /* Reduced padding */
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #222;
+            color: #f2f2f2;
+            font-size: 0.8em; /* Compact font size */
+        }
+        input::placeholder, textarea::placeholder {
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <section>
+            {% if messages %}
+                {% for m in messages %}
+                    <p>{{m}}</p>
+                {% endfor %}
+            {% endif %}
+        </section>
+
+        <div class="text-content">
+            <h2>Welcome user, thanks for your interest in expanding our project</h2>
+            <h3>
+                We are looking for specialized candidates who can help us expand our project. If you haven't explored our website yet, please do so and find out which areas need improvements.
+                <h1>This is a paid program. You will be paid after the end of our deal!</h1>
+                If your resume and skills meet our eligibility criteria, we will contact you through your email.
+                Here are the following areas we are looking for candidates to improve:
+                <br>
+                <strong>1: Backend - Write optimized code and logic</strong>
+                <strong>2: Frontend - Improve our design and make it flexible</strong>
+                <strong>3: Database - Write advanced queries</strong>
+                <strong>4: Logos - Design logos</strong>
+                <br>
+                <h1>Pay scale after completion of the given task</h1>
+                <br>
+                <strong>Backend - INR 1.5 lakhs</strong>
+                <strong>Frontend - INR 70,000</strong>
+                <strong>Database - INR 90,000</strong>
+                <strong>Logos - INR 40,000</strong>
+                <strong>SEO - INR 70,400</strong>
+                <strong>APIs - INR 85,000</strong>
+                <br>
+                <strong>Kindly fill in the following details carefully and ensure they are correct</strong>
+            </h3>
+        </div>
+
+        <section>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Apply</button>
+            </form>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate the containers
+            gsap.from(".content", { duration: 1, opacity: 0, y: 50, ease: "power2.out" });
+
+            // Animate the headings
+            gsap.from("h2", { duration: 1, y: -50, opacity: 0, ease: "bounce" });
+            gsap.from("h3", { duration: 1, y: -50, opacity: 0, delay: 0.3, ease: "bounce" });
+            gsap.from("h1", { duration: 1, scale: 0.5, opacity: 0, delay: 0.6, ease: "elastic.out(1, 0.5)" });
+
+            // Animate the button
+            gsap.from("button", { duration: 1, scale: 0.8, opacity: 0, delay: 0.9, ease: "back.out(1.7)" });
+        });
+    </script>
+</body>
+</html>

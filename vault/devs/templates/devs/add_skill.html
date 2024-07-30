@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>add_skill</title>
+</head>
+<body>
+       <section>
+           {% if messages %}
+             {% for m in messages %}
+               <p>{{m}}</p>
+             {% endfor %}
+           {% endif %}
+       </section>
+
+       <strong>
+           we know you are a skilled person thats why we created this section and here yu could stre your skills🙂
+       </strong>
+
+      <section>
+          <form method="post" enctype="multipart/form-data">
+              {% csrf_token%}
+              {{form.as_p}}
+              <button type="submit">Upgrade</button>
+          </form>
+      </section>
+
+     <section>
+         <a href="{% url 'view_skills'%}">
+             <button type="submit">view skills</button>
+         </a>
+     </section>
+
+
+
+</body>
+</html>

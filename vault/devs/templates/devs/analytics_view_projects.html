@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding-top: 20px;
+        }
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            flex: 1 1 45%;
+            min-width: 30px;
+            height: 150px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .card-header {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .chart-container {
+            position: relative;
+            height: 135px;
+        }
+        .btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            font-size: 10px;
+            margin-top: 0px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .filter-container {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .filter-container label {
+            font-size: 8px;
+            color: #666;
+        }
+        .filter-container input {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background: #ffffff;
+            color: #333;
+            font-size: 10px;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            display: none;
+            z-index: 1000;
+        }
+        .spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .spinner div {
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 2px solid #007BFF;
+            width: 7px;
+            height: 7px;
+            animation: spin 1s linear infinite;
+        }
+        .spinner-text {
+            margin-top: 5px;
+            color: #333;
+            font-size: 12px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="spinner" id="spinner">
+        <div></div>
+        <div class="spinner-text"></div>
+    </div>
+    <div class="container">
+        <div class="filter-container">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate">
+            <button class="btn" onclick="filterData()">Apply Filter</button>
+        </div>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-header">Total Projects</div>
+                <div class="chart-container">
+                    <canvas id="totalProjectsChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Requirements Distribution</div>
+                <div class="chart-container">
+                    <canvas id="requirementsDistributionChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">What Does Distribution</div>
+                <div class="chart-container">
+                    <canvas id="whatDoesDistributionChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Recent Projects</div>
+                <div class="chart-container">
+                    <canvas id="recentProjectsChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Average Projects</div>
+                <div class="chart-container">
+                    <canvas id="averageProjectsChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Top Projects</div>
+                <div class="chart-container">
+                    <canvas id="topProjectsChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Trends Over Time</div>
+                <div class="chart-container">
+                    <canvas id="trendsOverTimeChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <button class="btn" onclick="downloadData()">Download Data</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function createChart(ctx, type, labels, data, backgroundColors) {
+            new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function showSpinner() {
+            document.getElementById('spinner').style.display = 'flex';
+        }
+
+        function hideSpinner() {
+            document.getElementById('spinner').style.display = 'none';
+        }
+
+        async function fetchData() {
+            // Simulating network request with a delay
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve({
+                        total_projects: {{ total_projects }},
+                        requirements_distribution: [{% for item in requirements_distribution %}{ requirements: '{{ item.requirements }}', count: {{ item.count }} }{% if not forloop.last %}, {% endif %}{% endfor %}],
+                        what_does_distribution: [{% for item in what_does_distribution %}{ what_does: '{{ item.what_does }}', count: {{ item.count }} }{% if not forloop.last %}, {% endif %}{% endfor %}],
+                        recent_projects: [{% for item in recent_projects %}{ project_name: '{{ item.project_name }}', id: {{ item.id }} }{% if not forloop.last %}, {% endif %}{% endfor %}],
+                        average_projects: { avg_projects: {{ average_projects.avg_projects }} },
+                        top_projects: [{% for item in top_projects %}{ project_name: '{{ item.project_name }}', count: {{ item.count }} }{% if not forloop.last %}, {% endif %}{% endfor %}],
+                        trends_over_time: [{% for item in trends_over_time %}{ month: '{{ item.month }}', value: {{ item.value }} }{% if not forloop.last %}, {% endif %}{% endfor %}]
+                    });
+                }, 3000); // Simulated delay
+            });
+        }
+
+        async function filterData() {
+            showSpinner();
+            const data = await fetchData();
+            hideSpinner();
+            displayCharts(data);
+        }
+
+        function displayCharts(data) {
+            var ctx1 = document.getElementById('totalProjectsChart').getContext('2d');
+            createChart(ctx1, 'bar', ['Total Projects'], [data.total_projects], ['#007BFF']);
+
+            var ctx2 = document.getElementById('requirementsDistributionChart').getContext('2d');
+            createChart(ctx2, 'pie', data.requirements_distribution.map(item => item.requirements), data.requirements_distribution.map(item => item.count), ['#FF6384', '#36A2EB', '#FFCE56']);
+
+            var ctx3 = document.getElementById('whatDoesDistributionChart').getContext('2d');
+            createChart(ctx3, 'pie', data.what_does_distribution.map(item => item.what_does), data.what_does_distribution.map(item => item.count), ['#FF6384', '#36A2EB', '#FFCE56']);
+
+            var ctx4 = document.getElementById('recentProjectsChart').getContext('2d');
+            createChart(ctx4, 'bar', data.recent_projects.map(item => item.project_name), data.recent_projects.map(item => item.id), ['#007BFF']);
+
+            var ctx5 = document.getElementById('averageProjectsChart').getContext('2d');
+            createChart(ctx5, 'doughnut', ['Average Projects'], [data.average_projects.avg_projects], ['#FFCE56']);
+
+            var ctx6 = document.getElementById('topProjectsChart').getContext('2d');
+            createChart(ctx6, 'bar', data.top_projects.map(item => item.project_name), data.top_projects.map(item => item.count), ['#FF6384']);
+
+            var ctx7 = document.getElementById('trendsOverTimeChart').getContext('2d');
+            createChart(ctx7, 'line', data.trends_over_time.map(item => item.month), data.trends_over_time.map(item => item.value), ['#36A2EB']);
+        }
+
+        window.onload = function() {
+            showSpinner();
+            fetchData().then(data => {
+                hideSpinner();
+                displayCharts(data);
+            });
+        }
+    </script>
+</body>
+</html>

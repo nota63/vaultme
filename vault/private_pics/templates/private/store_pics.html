@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Pics</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"> <!-- Stylish Google Font -->
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            height:000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0; /* For GSAP Animation */
+        }
+
+        .messages {
+            background-color: #4CAF50; /* Green color */
+            border-left: 5px solid #e63946;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            color: #fff;
+            font-size:10px;
+        }
+
+        .message {
+            color: #fff;
+        }
+
+        .main-content {
+            opacity: 0; /* For GSAP Animation */
+        }
+
+        h1 {
+            color: #e63946;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            color: #ccc;
+            font-size: 10px;
+        }
+
+        .upload-form {
+            margin-top: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 5px; /* Gap between form elements */
+<!--            height:100px;-->
+<!--            width:700px;-->
+        }
+
+        input[type="file"] {
+            padding: 3px;
+            border: 1px solid #e63946;
+            border-radius: 20px;
+            background-color: #2a2a2a;
+            color: #fff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="file"]:hover {
+            border-color: #c52f34;
+            box-shadow: 0 0 10px rgba(230, 57, 70, 0.6);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            font-size: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn {
+            background-color: #e63946;
+        }
+
+        .submit-btn:hover {
+            background-color: #c52f34;
+        }
+
+        .view-btn {
+            background-color: #2a9d8f;
+            margin-top: 2px;
+        }
+
+        .view-btn:hover {
+            background-color: #23867e;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/gsap.min.js"></script> <!-- GSAP Library -->
+</head>
+<body>
+    <div class="container">
+        <!-- Display messages -->
+        <div class="messages">
+            {% if messages %}
+                {% for m in messages %}
+                    <div class="message">{{ m }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>Store Your Private Images</h1>
+            <p>Upload your private images to our secure cloud database and enjoy peace of mind, powered by VaultMe.</p>
+
+            <section class="upload-form">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn submit-btn">Save</button>
+                </form>
+            </section>
+
+            <section class="view-pics">
+                <a href="{% url 'view_pis' %}" class="btn view-btn">View Pics</a>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // GSAP Animation for container and main content
+        gsap.to(".container", { opacity: 1, duration: 1, delay: 0.5 });
+        gsap.to(".main-content", { opacity: 1, y: 20, duration: 1, delay: 1 });
+        gsap.from(".btn", { opacity: 0, y: 20, duration: 0.5, stagger: 0.2, delay: 1.5 });
+    </script>
+</body>
+</html>

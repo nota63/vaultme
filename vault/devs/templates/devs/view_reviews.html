@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonials</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .testimonials {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .testimonials h1 {
+            font-family: 'Playfair Display', serif;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        .testimonials h2 {
+            font-family: 'Playfair Display', serif;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        .testimonial-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Exactly 4 cards per row */
+            gap: 15px; /* Spacing between the cards */
+            justify-content: center;
+            position: relative;
+            max-width: 1000px; /* Ensure it fits within a reasonable width */
+            width: 100%;
+        }
+        .testimonial-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            width: 200px; /* Compact width for each card */
+            height: 200px; /* Compact height for each card */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+        .testimonial-card img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 8px;
+        }
+        .testimonial-card p {
+            color: #4CAF50;
+            margin: 0;
+            font-weight: 700; /* Bold for emphasis */
+        }
+        .testimonial-card blockquote {
+            font-size: 12px;
+            color: #555555;
+            margin: 8px 0;
+            line-height: 1.4;
+            overflow: hidden;
+            font-style: italic; /* Italic for quotes */
+        }
+        .testimonial-card .name {
+            font-weight: bold;
+            color: #333333;
+            margin-top: 5px;
+        }
+        .testimonial-card .date {
+            font-size: 12px;
+            color: #999999;
+        }
+        .arrow {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .arrow-left {
+            left: -40px;
+        }
+        .arrow-right {
+            right: -40px;
+        }
+        .plus-icon {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-align: center;
+            line-height: 30px;
+        }
+        .plus-icon svg {
+            fill: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="testimonials">
+        <h1>Users reviews</h1>
+        <h2>What Our users Say</h2>
+        <div class="testimonial-cards">
+            <div class="arrow arrow-left">&lt;</div>
+            {% for review in data %}
+            <div class="testimonial-card">
+                <img src="{{ review.image.url }}" alt="User Image">
+                <p>&ldquo;</p>
+                <blockquote>{{ review.pros }}<br>Cons: {{ review.cons }}<br>Suggestion: {{ review.suggestion }}</blockquote>
+                <p>&rdquo;</p>
+                <div class="name">{{ review.user.username }}</div>
+                <div class="date">{{ review.date_posted|date:"F j, Y" }}</div>
+            </div>
+            {% endfor %}
+            <div class="arrow arrow-right">&gt;</div>
+            <a href="{% url 'reviews' %}" class="plus-icon" title="Add a Review">
+                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
+            </a>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate the heading
+            gsap.from(".testimonials h1", { duration: 1, y: -50, opacity: 0, ease: "bounce" });
+            gsap.from(".testimonials h2", { duration: 1, y: -50, opacity: 0, delay: 0.3, ease: "bounce" });
+
+            // Animate each testimonial card
+            gsap.from(".testimonial-card", {
+                duration: 1,
+                opacity: 0,
+                y: 50,
+                stagger: 0.2,
+                ease: "power2.out"
+            });
+
+            // Animate the arrows
+            gsap.from(".arrow", {
+                duration: 1,
+                opacity: 0,
+                scale: 0.5,
+                stagger: 0.3,
+                delay: 0.5,
+                ease: "elastic.out(1, 0.5)"
+            });
+
+            // Animate the plus icon
+            gsap.from(".plus-icon", {
+                duration: 1,
+                opacity: 0,
+                scale: 0.5,
+                delay: 1,
+                ease: "elastic.out(1, 0.5)"
+            });
+        });
+    </script>
+</body>
+</html>

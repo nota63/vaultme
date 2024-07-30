@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload PDFs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #007bff;
+            text-align: center;
+        }
+        p {
+            font-size: 0.6em;
+            line-height: 1.5;
+            color: #212529;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input[type="file"] {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            font-size: 0.5em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="file"]:hover {
+            border-color: #0056b3;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            padding: 10px;
+            font-size: 0.5em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 2px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: flex;
+            align-items: center;
+        }
+        .message::before {
+            content: '✔';
+            margin-right: 5px;
+            font-size: 1.0em;
+            color: #155724;
+        }
+        .text-center {
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Your PDFs</h1>
+
+        {% if messages %}
+            <div class="message">
+                {% for m in messages %}
+                    <p>{{ m }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <p><strong>Upload your PDFs here in our cloud storage, and we will handle them securely.</strong></p>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <button type="submit">Save</button>
+        </form>
+
+        <div class="text-center">
+            <a href="{% url 'view_pdfs' %}">
+                <button type="button">View PDFs</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // GSAP animations
+        gsap.from(".container", {
+            duration: 1.2,
+            opacity: 0,
+            y: 20,
+            ease: "power3.out"
+        });
+
+        gsap.from("button", {
+            duration: 0.8,
+            opacity: 0,
+            y: 10,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
+    </script>
+</body>
+</html>

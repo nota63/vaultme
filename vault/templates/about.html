@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.2.0/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f3f4f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            background: #1d4ed8;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            width: 80px;
+            border-radius: 8px;
+            border: 2px solid #fff;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 20px 10px;
+            background: #ffffff;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            margin: 0;
+            color: #1d4ed8;
+        }
+
+        .hero p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .section {
+            padding: 10px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: #1d4ed8;
+            margin-bottom: 10px;
+        }
+
+        .feature {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .feature div {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 10px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature div:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .feature div img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .feature div h3 {
+            font-size: 16px;
+            margin: 0 0 6px;
+        }
+
+        .feature div p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        footer {
+            padding: 10px;
+            background: #1d4ed8;
+            color: #fff;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Company Logo -->
+        <img src="https://th.bing.com/th/id/OIP.xiHyuZk71__2r8mDXZODNgHaCI?rs=1&pid=ImgDetMain" alt="Company Logo" class="logo">
+        <h1>version 1.0.09</h1>
+    </header>
+
+    <section class="hero animate__animated animate__fadeIn animate__delay-1s">
+        <h1>Welcome to Our Platform</h1>
+        <p>We offer a comprehensive suite of functionalities designed to simplify and enhance your digital experience.</p>
+    </section>
+
+    <section class="section">
+        <h2>Our Features</h2>
+        <div class="feature">
+            <div class="animate__animated animate__fadeIn animate__delay-2s">
+                <img src="https://th.bing.com/th/id/OIP.qz3dV8WwDEz3xZYhrUSpbwHaHa?rs=1&pid=ImgDetMain" alt="Images">
+                <h3>Store Images</h3>
+                <p>Upload and manage your images effortlessly.</p>
+            </div>
+            <div class="animate__animated animate__fadeIn animate__delay-2s">
+                <img src="https://www.svgrepo.com/show/375480/private-service-connect.svg" alt="Private Images">
+                <h3>Private Images</h3>
+                <p>Keep your sensitive images secure with private storage.</p>
+            </div>
+            <div class="animate__animated animate__fadeIn animate__delay-3s">
+                <img src="https://th.bing.com/th/id/OIP.fxTjeZYZ5hpP1ReiIVSH3QHaHa?rs=1&pid=ImgDetMain" alt="Contacts">
+                <h3>Contacts</h3>
+                <p>Organize and manage your contacts efficiently.</p>
+            </div>
+            <div class="animate__animated animate__fadeIn animate__delay-3s">
+                <img src="https://th.bing.com/th/id/OIP.X07nYcW-WPeeSuzvTYpmSAAAAA?rs=1&pid=ImgDetMain" alt="PDFs">
+                <h3>PDFs</h3>
+                <p>Store and access your PDF documents with ease.</p>
+            </div>
+            <div class="animate__animated animate__fadeIn animate__delay-4s">
+                <img src="https://th.bing.com/th/id/OIP.x9BB3vJP_LAiX5rAyaGAwwHaHa?rs=1&pid=ImgDetMain" alt="Documents">
+                <h3>Documents</h3>
+                <p>Upload and manage various types of documents.</p>
+            </div>
+            <div class="animate__animated animate__fadeIn animate__delay-4s">
+                <img src="https://th.bing.com/th/id/OIP.0tVCM_6HYsqzPlKBQ8ZSnQHaFj?rs=1&pid=ImgDetMain" alt="Code">
+                <h3>Developer Section</h3>
+                <p>Store your code, share projects, review, comment, and communicate with fellow developers.</p>
+            </div>
+
+            <div class="animate__animated animate__fadeIn animate__delay-4s">
+                <img src="https://www.svgrepo.com/show/353656/django.svg" alt="Code">
+                <h3>Security</h3>
+                <p>An incredible and unbreakable built in security by django.</p>
+            </div>
+
+             <div class="animate__animated animate__fadeIn animate__delay-4s">
+                <img src="https://th.bing.com/th/id/OIP.vTbkwBdR-j1bKYZ7UFT_RQHaHa?rs=1&pid=ImgDetMain" alt="Code">
+                <h3>Database</h3>
+                <p>A secured and flexible database to store and handle your data</p>
+            </div>
+
+
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 VaultMe. All rights reserved.</p>
+    </footer>
+</body>
+</html>

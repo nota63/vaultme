@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultMe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2874f0;
+            --secondary-color: #2c3e50;
+            --accent-color: #16a085;
+            --background-color: #ecf0f1;
+            --text-color: #2c3e50;
+            --font-family: 'Roboto', sans-serif;
+            --transition-duration: 0.3s;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #2c3e50;
+            --text-color: #ecf0f1;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background-color var(--transition-duration), color var(--transition-duration);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5em;
+            transition: color var(--transition-duration);
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+
+        header nav a {
+            text-decoration: none;
+            color: white;
+            margin: 0 10px;
+            font-size: 1.1em;
+            transition: color var(--transition-duration);
+        }
+
+        header nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .social-icons a {
+            color: white;
+            margin: 0 5px;
+            font-size: 1.2em;
+            transition: color var(--transition-duration);
+        }
+
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+
+        .theme-switcher {
+    cursor: pointer;
+    font-size: 1.5em;
+    transition: color var(--transition-duration);
+    margin: 0 auto;
+    text-align: center;
+    display: inline-block;
+}
+
+        main {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            transition: color var(--transition-duration);
+            padding-top: 70px; /* To avoid overlap with header */
+            padding-bottom: 50px; /* To avoid overlap with footer */
+        }
+
+        main h2 {
+            color: var(--accent-color);
+            font-size: 1.6em;
+            margin: 20px 0;
+            transition: color var(--transition-duration);
+        }
+
+        main p {
+            font-size: 1em;
+            margin: 10px 0;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 5px;
+            padding: 10px;
+            text-align: center;
+            width: 70px;
+            transition: transform var(--transition-duration), box-shadow var(--transition-duration);
+        }
+
+        section img {
+            max-width: 50%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 0.9em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer .social-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 600px) {
+            header, footer {
+                flex-direction: column;
+            }
+
+            header nav, footer .social-icons {
+                margin-top: 10px;
+            }
+
+            .sections-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Scrollbar Styles */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>VaultMe</h2>
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="{% url 'signup' %}"><i class="fas fa-user-plus"></i> Signup</a>
+            {% endif %}
+        </nav>
+        <div class="social-icons">
+            <a href="https://github.com/nota63" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://wa.me/+919022216598" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/a_software_engineer_4/?hl=en" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/vishal.dudhabarve.31" target="_blank"><i class="fab fa-facebook"></i></a>
+        </div>
+        <i class="fas fa-adjust theme-switcher"></i>
+    </header>
+
+    <main>
+        <h2>Welcome, {{ user.username }}!</h2>
+        <div class="sections-container">
+            <section>
+                <a href="{% url 'add_contact'%}">
+                    <img src="https://skpbrand.com/wp-content/uploads/2021/04/1200px-Google_Contacts_icon.svg-768x768.png" alt="Add Contact">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'add_person'%}">
+                    <img src="https://th.bing.com/th/id/OIP.GWzzRFdPbYo9J7vr2arBrgHaHa?rs=1&pid=ImgDetMain" alt="Add Person">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'store_documents' %}">
+                    <img src="https://thumbs.dreamstime.com/b/multiple-file-document-icon-logo-design-element-multiple-file-document-icon-logo-design-element-white-background-122728126.jpg" alt="Store Documents">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'store_pics'%}">
+                    <img src="https://th.bing.com/th/id/OIP.gHYnrmC9bSs4mrdmt3YnyQHaHa?rs=1&pid=ImgDetMain" alt="Store Pictures">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'store_pdfs'%}">
+                    <img src="https://icon-library.com/images/pdf-icon-svg/pdf-icon-svg-6.jpg" alt="Store PDFs">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'store_passwords'%}">
+                    <img src="https://th.bing.com/th/id/R.ba2cf6d538cd55cb3205b052274fbffc?rik=ONHpVE0Jwafnpw&riu=http%3a%2f%2fimages.all-free-download.com%2fimages%2fgraphiclarge%2flock_icon_6813906.jpg&ehk=WEjM6hyy9jUSDUumIH6nhBKADpRTsCyFcyd5eIQH%2bdw%3d&risl=&pid=ImgRaw&r=0" alt="Store Passwords">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'view_blogs'%}">
+                    <img src="https://image.freepik.com/vector-gratis/diseno-logo-chat_93835-108.jpg" alt="View Blogs">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'developer_platform'%}">
+                    <img src="https://th.bing.com/th/id/OIP.GxxBPEJVAeumgqJgmjIVTAHaH0?rs=1&pid=ImgDetMain" alt="Developer Platform">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'invite'%}">
+                    <img src="https://image.freepik.com/free-vector/invite-concept-illustration_114360-467.jpg" alt="Invite">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'about'%}">
+                    <img src="https://static.vecteezy.com/system/resources/thumbnails/007/933/499/small_2x/about-us-button-about-us-text-template-for-website-about-us-icon-flat-style-vector.jpg" alt="About Us">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'shutdown'%}">
+                    <img src="https://th.bing.com/th/id/OIP.SFywL1A3TMbyYPvalHl71QHaHa?rs=1&pid=ImgDetMain" alt="Shutdown">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'system_info'%}">
+                    <img src="https://th.bing.com/th/id/OIP.OVDBlSOgs_Db8wpx04f2yQHaEN?rs=1&pid=ImgDetMain" alt="System Info">
+                </a>
+            </section>
+            <section>
+                <a href="{% url 'add_task'%}">
+                    <img src="https://th.bing.com/th/id/OIP.-qHYockPx3aiFH2qwS4E-QHaHa?rs=1&pid=ImgDetMain" alt="Task Manager">
+                </a>
+            </section>
+
+             <section>
+                <a href="{% url 'feedback'%}">
+                    <img src="https://th.bing.com/th/id/OIP.ipzlPAluPi0pxnLhKAYcDQHaHa?rs=1&pid=ImgDetMain" alt="Feedback">
+                </a>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 VaultMe. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="https://github.com/yourprofile" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://wa.me/yourphonenumber" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://instagram.com/yourprofile" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com/yourprofile" target="_blank"><i class="fab fa-facebook"></i></a>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // GSAP animation
+            gsap.from("header", { duration: 1, y: -100, opacity: 0 });
+            gsap.from("main", { duration: 1, y: 100, opacity: 0 });
+            gsap.from("footer", { duration: 1, y: 100, opacity: 0 });
+
+            // Theme switcher
+            const themeSwitcher = document.querySelector(".theme-switcher");
+            themeSwitcher.addEventListener("click", () => {
+                document.body.dataset.theme = document.body.dataset.theme === "dark" ? "light" : "dark";
+            });
+        });
+    </script>
+</body>
+</html>
