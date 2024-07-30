@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>eBook Detail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        section {
+            width: 90%;
+            max-width: 800px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        ul a {
+            text-decoration: none;
+        }
+
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9em;
+            background-color: #4a90e2; /* Blue color */
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <section>
+        <h3>eBook Details</h3>
+
+        <strong>Title: {{ data.name }}</strong>
+        <p>Subject: {{ data.subject }}</p>
+        <p>Owner: {{ data.user }}</p>
+        <p>Added Date: {{ data.date }}</p>
+        <p>Raw eBook: {{ data.ebook }}</p>
+
+        <ul>
+            <li>
+                <a href="{{ data.ebook.url }}" target="_blank">
+                    <button type="button">View eBook</button>
+                </a>
+                <a href="{% url 'delete_ebooks' data.id %}">
+                    <button type="button">Delete</button>
+                </a>
+            </li>
+            <li>
+                <a href="{{ data.ebook.url }}" download>
+                    <button type="button">Download eBook</button>
+                </a>
+            </li>
+            <li>
+                <a href="https://api.whatsapp.com/send?text=http://127.0.0.1:8000/{{ data.ebook.url }}" target="_blank">
+                    <button type="button">Share on WhatsApp</button>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:8000/{{ data.ebook.url }}" target="_blank">
+                    <button type="button">Share on Facebook</button>
+                </a>
+            </li>
+            <li>
+                <a href="https://twitter.com/intent/tweet?text=http://127.0.0.1:8000/{{ data.ebook.url }}" target="_blank">
+                    <button type="button">Share on Twitter</button>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <script>
+        gsap.from("h3", { duration: 1, y: -30, opacity: 0, ease: "power2.out" });
+        gsap.from("section", { duration: 1, y: 30, opacity: 0, delay: 0.5, ease: "power2.out" });
+        gsap.from("ul button", { duration: 1, y: 30, opacity: 0, delay: 1, stagger: 0.2, ease: "power2.out" });
+    </script>
+
+</body>
+</html>

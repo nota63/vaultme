@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Your Product - VaultMe</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f0f0; /* Light Grey Background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-x: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            font-family: 'Lora', serif;
+            font-size: 1.6em;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+
+        .products-section {
+            text-align: left;
+            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 8px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .products-section h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product-item {
+            background-color: #fff;
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .product-item h3 {
+            font-size: 1em;
+            color: #d4af37;
+            margin: 0;
+        }
+
+        .product-item p {
+            font-size: 0.85em;
+            color: #555;
+            margin: 4px 0;
+        }
+
+        .product-item span {
+            display: block;
+            font-size: 0.85em;
+            color: #777;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.7em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .button:active {
+            background-color: #004494;
+            transform: scale(0.95);
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            color: #fff;
+        }
+
+        .alert.success {
+            background-color: #28a745; /* Green */
+        }
+
+        .alert.error {
+            background-color: #dc3545; /* Red */
+        }
+
+        .guide {
+            text-align: left;
+            margin-bottom: 15px;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+
+        .guide h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.2em;
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+
+        .guide ol {
+            margin: 0;
+            padding: 0;
+            list-style-position: inside;
+        }
+
+        .guide ol li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 0.85em;
+        }
+
+        .guide ol li img {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #A4B3FF;
+            border-radius: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .status {
+    color:#28a745; /* Green color */
+    font-weight: bold;
+}
+
+.message {
+    color: #28a745; /* Green color */
+    font-weight: bold;
+}
+
+  .mes {
+    color: #28a745; /* Green color */
+    font-weight: bold;
+}
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Sell Your Product</h1>
+
+        <section class="mes">
+            {% if messages %}
+              {% for m in messages %}
+                <strong>{{m}}</strong>
+              {% endfor %}
+            {% endif %}
+        </section>
+
+        <div class="guide">
+            <h2>How to Submit Your Product</h2>
+            <ol>
+                <li>
+                    <img src="https://img.icons8.com/ios/50/000000/edit-file.png" alt="Step 1 Icon">
+                    <strong>Step 1:</strong> Enter the product name and description.
+                </li>
+                <li>
+                    <img src="https://img.icons8.com/ios/50/000000/pdf.png" alt="Step 2 Icon">
+                    <strong>Step 2:</strong> Upload a relevant PDF file.
+                </li>
+                <li>
+                    <img src="https://img.icons8.com/ios/50/000000/price-tag.png" alt="Step 3 Icon">
+                    <strong>Step 3:</strong> Provide the price.
+                </li>
+                <li>
+                    <img src="https://img.icons8.com/ios/50/000000/checklist.png" alt="Step 4 Icon">
+                    <strong>Step 4:</strong> Review your information.
+                </li>
+                <li>
+                    <img src="https://th.bing.com/th/id/OIP.GtyhomgHRYd8Wq-GabpPHgHaE4?rs=1&pid=ImgDetMain" alt="Step 5 Icon">
+                    <strong>Step 5:</strong> Click "Submit".
+                </li>
+            </ol>
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button">Submit Product</button>
+        </form>
+
+        <div class="products-section">
+            <h2>Your Listed Products</h2>
+            {% for product in data %}
+            <div class="product-item">
+                <div>
+                    <h3>{{ product.product_name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p><strong>Price:</strong> {{ product.price }}</p>
+                    <p><strong>Date Listed:</strong> {{ product.date_listed }}</p>
+                    {% if product.product_pdf %}
+                    <p><a href="{{ product.product_pdf.url }}" target="_blank">View Product PDF</a></p>
+                    <p><strong class="status">Status: {{product.status}}</strong></p>
+                    <p><strong class="message">{{product.message}}</strong></p>
+                    {% endif %}
+                </div>
+                <div>
+                    <a href="{% url 'update_product' product.pk %}" class="button">Touch</a>
+                    <form method="post" action="{% url 'delete_products' product.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="button" onclick="return confirm('Are you sure you want to prevent  this product?');">Prevent</button>
+                    </form>
+                </div>
+            </div>
+            {% empty %}
+            <p>No products listed yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

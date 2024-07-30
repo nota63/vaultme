@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Address</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        h2 {
+            color: #007bff;
+            margin-bottom: 0.5em;
+            text-align: center;
+        }
+        p {
+            font-size: 1em;
+            color: #dc6122; /* Red color */
+            margin-bottom: 1.5em;
+            text-align: center;
+        }
+        .container {
+            width: 400px;
+            height: 500px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 1.5em;
+            overflow-y: auto;
+            opacity: 0; /* Initial state for animation */
+            transform: scale(0.9); /* Initial state for animation */
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
+        button {
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 0.9em;
+            padding: 0.75em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .logo {
+            width: 85px;
+            height: 85px;
+            display: block;
+            margin: 0 auto 1em;
+        }
+        /* Custom scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Light gray track */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #007bff; /* Blue color */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://img.freepik.com/premium-vector/house-location-icon-flat-vector-secret-service-call-center-isolated_98396-60860.jpg" alt="Address Icon" class="logo">
+
+        <h2>Update Your Address for {{ address.item }}</h2>
+
+        <p>You can use custom addresses for each order! feature provided by VaultMe</p>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update Address</button>
+        </form>
+    </div>
+
+    <script>
+        gsap.to(".container", {
+            duration: 1,
+            opacity: 1,
+            scale: 1,
+            ease: "bounce.out"
+        });
+    </script>
+
+</body>
+</html>

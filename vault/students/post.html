@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>post</title>
+</head>
+<body>
+
+      <h1>Post your photos on your feed</h1>
+
+      <section>
+          <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{form.as_p}}
+              <button type="submit">post</button>
+          </form>
+      </section>
+
+
+
+
+</body>
+</html>

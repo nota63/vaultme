@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f3f3f3, #e2e2e2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 100%;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 10px;
+            width: 100px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+        }
+        .form-group {
+            margin-bottom: 8px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+            font-size: 14px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .form-check-input {
+            margin-right: 10px;
+        }
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="feedbackForm">
+        {% load static %}
+        <img src="https://th.bing.com/th/id/OIP.xiHyuZk71__2r8mDXZODNgHaCI?rs=1&pid=ImgDetMain" alt="Company Logo" class="logo">
+        <h2>Submit Feedback</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="category">Category</label>
+                {{ form.category }}
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating</label>
+                {{ form.rating }}
+            </div>
+            <div class="form-group">
+                <label for="comments">Comments</label>
+                {{ form.comments }}
+            </div>
+            <div class="form-group">
+                <label for="file">Attach File</label>
+                {{ form.file }}
+            </div>
+            <div class="form-group">
+                <label>
+                    {{ form.anonymous }} Submit anonymously
+                </label>
+            </div>
+            <button type="submit" class="btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        gsap.to("#feedbackForm", {duration: 1, opacity: 1, scale: 1, ease: "power2.out"});
+    </script>
+</body>
+</html>

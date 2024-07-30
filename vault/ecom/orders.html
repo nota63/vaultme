@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Orders</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@300;600&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin: 20px 0;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .order-list {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .order-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .order-item:hover {
+            background-color: #fafafa;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item img {
+            border-radius: 8px;
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-item h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            color: #34495e;
+        }
+
+        .order-item p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .order-item strong {
+            display: block;
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .order-item .status, .order-item .delivery-date {
+            color: #2ecc71; /* Green color for status and delivery date */
+        }
+
+        .no-orders {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #95a5a6;
+            padding: 20px;
+        }
+
+        .button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .order-item {
+            animation: bounceIn 0.6s ease-out;
+        }
+
+
+        /* Style for the search form */
+form {
+    display: flex;
+    align-items: center;
+}
+
+form input[type="text"] {
+    padding: 8px 15px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+    width: 200px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+form input[type="text"]:focus {
+    border-color: #3498db;
+    width: 250px;
+}
+
+form button[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 25px;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 25px;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+
+
+form button[type="submit"]:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Your Orders</h1>
+
+        <form method="get">
+            <input type="text" name="search" value="" placeholder="Search by status">
+            <button type="submit">Find</button>
+        </form>
+
+
+
+        <br>
+
+
+
+
+
+        <section>
+            {% if messages %}
+                <div class="messages">
+                    {% for m in messages %}
+                        <p>{{ m }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </section>
+
+        <section class="order-list">
+            {% if orders %}
+                {% for order in orders %}
+                    <div class="order-item">
+                        <img src="{{ order.item.image.url }}" alt="{{ order.item.title }}">
+                        <div>
+                            <h3>{{ order.item.title }}</h3>
+                            <p>Quantity: {{ order.quantity }}</p>
+                            <p>Address: {{ order.full_name }}, {{ order.address.contact }}</p>
+                            <p>Placed on: {{ order.placed_on }}</p>
+                            <strong class="status">Status: {{ order.status }}</strong>
+                            <strong class="custom-status">Custom Status: {{ order.custom_status }}</strong>
+                            <strong class="delivery-date">Expected Delivery: {{ order.expected_delivery_date }}</strong>
+                            <strong>{{ order.delivered_on }}</strong>
+                            <a href="{% url 'cancel' order.id %}" class="button">Cancel Order</a>
+                            <a href="{% url 'change_address' order.id %}" class="button">Change Address</a>
+                            <a href="{% url 'raise_help' order.id %}" class="button">Help!</a>
+                        </div>
+                    </div>
+                {% empty %}
+                havent found order by status!
+                {% endfor %}
+            {% else %}
+                <p class="no-orders">You have no orders yet.</p>
+            {% endif %}
+        </section>
+    </div>
+
+</body>
+</html>

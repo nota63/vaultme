@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translate</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #f9f9f9, #e3f2fd);
+            color: #333;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: green;
+            font-size: 1.0rem;
+            margin-bottom: 15px;
+        }
+        textarea {
+            width: 100%;
+            max-width: 400px;
+            padding: 4px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            margin-bottom: 15px;
+        }
+        textarea:focus {
+            border-color: #42a5f5;
+            box-shadow: 0 0 6px rgba(66, 165, 245, 0.5);
+            outline: none;
+        }
+        button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            background-color: #42a5f5;
+            color: white;
+            font-size: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #1e88e5;
+            transform: scale(1.05);
+        }
+        .spinner {
+            display: none;
+            border: 6px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 6px solid #42a5f5;
+            width: 10px;
+            height: 10px;
+            animation: spin 1s linear infinite;
+            margin: 15px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script>
+        function showSpinner() {
+            document.getElementById('spinner').style.display = 'block';
+        }
+
+        window.onload = function() {
+            gsap.from(".container", { duration: 1.5, opacity: 0, y: 20 });
+            gsap.from("h1", { duration: 1.5, opacity: 0, x: -20, delay: 0.5 });
+            gsap.from("form", { duration: 1.5, opacity: 0, scale: 0.8, delay: 1 });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img src="https://static.vecteezy.com/system/resources/previews/005/567/686/original/translator-icon-logo-two-squares-and-arrow-translate-symbol-isolated-on-white-background-language-translation-icon-free-vector.jpg" alt="Company Logo" class="logo">
+        <h1>Translate English to Hindi</h1>
+        <form method="post" onsubmit="showSpinner()">
+            {% csrf_token %}
+            <textarea name="text" rows="3" placeholder="Enter text here..."></textarea><br>
+            <button type="submit"><i class="fas fa-language"></i> Translate</button>
+        </form>
+        <div id="spinner" class="spinner"></div>
+        {% if translation %}
+        <h2>Translation:</h2>
+        <p>{{ translation }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to VaultMe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f8f8; /* Light grey background */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .welcome-container {
+            max-width: 400px; /* Compact and centered */
+            padding: 30px 40px;
+            background-color: #ffffff;
+            border-radius: 12px; /* Soft rounded corners */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Luxurious shadow */
+            border-top: 4px solid #d4af37; /* Gold top border */
+            animation: slideIn 1s ease-out;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em; /* Premium font size */
+            margin: 0;
+            color: #1a1a1a; /* Darker, more elegant color */
+            animation: fadeInUp 1s ease-out;
+        }
+
+        p {
+            font-size: 1em;
+            margin: 20px 0;
+            color: #555; /* Soft grey for text */
+            line-height: 1.6em;
+            animation: fadeInUp 1s ease-out 0.5s;
+        }
+
+        .ecommerce-icons {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+        }
+
+        .ecommerce-icons svg {
+            width: 45px;
+            height: 45px;
+            fill: #b3a76b; /* Gold-like color */
+            transition: transform 0.3s ease, fill 0.3s ease;
+            animation: bounceIn 1s ease-out;
+        }
+
+        .ecommerce-icons svg:hover {
+            transform: scale(1.2);
+            fill: #d4af37; /* Richer gold on hover */
+        }
+
+        .get-started-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 1em;
+            font-weight: 500;
+            color: #ffffff;
+            background: linear-gradient(135deg, #d4af37, #b3a76b); /* Gold gradient */
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Premium button shadow */
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            animation: fadeInUp 1s ease-out 1s;
+        }
+
+        .get-started-btn:hover {
+            background: linear-gradient(135deg, #b3a76b, #d4af37); /* Reverse gradient on hover */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+            transform: translateY(-3px);
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <h1>Welcome to VaultMe</h1>
+        <p>Step into a realm of unparalleled security and luxury. VaultMe provides a premium e-commerce experience crafted for discerning users who demand the best.</p>
+
+        <div class="ecommerce-icons">
+            <!-- SVG Icons (example) -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 4h-4V2H8v2H4v2h2v14h12V6h2V4h-4zm-6 0h4v2h-4V4zm6 14H6V6h10v12zm-4-6h-4v4h4v-4zm2 4h-2v-4h2v4z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 13h-4v4h-2v-4H7v-2h4V9h2v4h4v2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 14H9v2H7v-2H5v-2h2V9h2v3h6V9h2v3h2v2h-2v2h-2v-2zm1 6H8v-2h8v2z"/></svg>
+        </div>
+
+        <a href="{% url 'home_page'%}" class="get-started-btn">Get Started</a>
+    </div>
+</body>
+</html>

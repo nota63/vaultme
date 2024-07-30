@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultMe - Seller Agreement</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Playfair+Display:wght@500&family=Roboto+Condensed:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 15px 15px;
+            background-color: #d4af37;
+            color: #fff;
+            border-bottom: 4px solid #b38f00;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        /* Agreement Section */
+        .agreement-container {
+            max-width: 700px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        p, ul {
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        label {
+            font-size: 0.95em;
+            color: #333;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+            transform: scale(1.1);
+        }
+
+        /* Get Started Button */
+        .get-started-button {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            background-color: #d4af37; /* Gold color */
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 500;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .get-started-button:hover {
+            background-color: #b38f00;
+            transform: scale(1.05);
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>VaultMe - Seller Agreement</h1>
+    </header>
+
+    <!-- Agreement Section -->
+    <div class="agreement-container">
+        <h2>Seller Agreement</h2>
+        <p>Welcome to VaultMe! Before you start selling your items on our platform, please carefully read the following agreement. By accepting these terms, you agree to comply with all the rules and regulations set forth by VaultMe.</p>
+        <p>This agreement covers important aspects including but not limited to:</p>
+        <ul>
+            <li>Listing fees and payment processing</li>
+            <li>Shipping and delivery responsibilities</li>
+            <li>Return and refund policies</li>
+            <li>Prohibited items and listing content</li>
+        </ul>
+        <p>Make sure to read and understand all terms before proceeding. Once you agree, you'll be able to start listing your items for sale on VaultMe.</p>
+
+        <!-- Agreement Checkbox -->
+        <form method="post" action="{% url 'seller_page'%}">
+            {% csrf_token %}
+            <label>
+                <input type="checkbox" name="agree" required>
+                I have read and agree to the terms and conditions.
+            </label>
+
+            <!-- Get Started Button -->
+            <a href="{% url 'seller_page'%}">
+                <button class="get-started-button" type="submit">Get started</button>
+            </a>
+        </form>
+    </div>
+
+</body>
+</html>

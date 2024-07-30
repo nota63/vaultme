@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request an Item</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Container for SVG Logo */
+        .logo-container {
+            text-align: center;
+            margin-top: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo-container svg {
+            width: 80px;
+            height: 80px;
+        }
+
+        /* Header */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4em;
+            color: #1a1a1a;
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        p {
+            font-size: 1.0em;
+            color: #555;
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* Form Section */
+        section {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: slideIn 1s ease-out;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form button[type="submit"] {
+            padding: 12px 20px;
+            border-radius: 4px;
+            border: none;
+            background-color: #d4af37; /* Gold color */
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 10px;
+        }
+
+        form button[type="submit"]:hover {
+            background-color: #b38f00;
+            transform: scale(1.05);
+        }
+
+        /* Back Button */
+        a button {
+            padding: 12px 20px;
+            border-radius: 4px;
+            border: none;
+            background-color: #555;
+            color: #fff;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        a button:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG Logo -->
+    <div class="logo-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="30" fill="#d4af37" />
+            <path d="M45.5 22.5h-8.8v-8.8h-9.4v8.8h-8.8v9.4h8.8v8.8h9.4v-8.8h8.8z" fill="#fff"/>
+        </svg>
+    </div>
+
+    <h1>Request an Item</h1>
+    <p>We will charge 10% extra amount than the current item price as our delivery charges! and will get in touch with you soon through your contact.</p>
+
+    <section>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Request</button>
+        </form>
+    </section>
+
+    <a href="{% url 'home_page' %}">
+        <button type="button">Back</button>
+    </a>
+
+</body>
+</html>

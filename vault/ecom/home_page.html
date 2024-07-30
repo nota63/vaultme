@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultMe Premium Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header */
+        .header {
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #d4af37; /* Gold accent */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 1.5em;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .header .icons a {
+            margin-left: 10px;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+
+        .header .icons a:hover {
+            color: #d4af37; /* Gold hover effect */
+        }
+
+        /* Search Bar */
+        .header form {
+            display: flex;
+            align-items: center;
+            background: #333;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header input[type="text"] {
+            border: none;
+            padding: 10px 20px;
+            outline: none;
+            color: #fff;
+            background: #444;
+            font-size: 0.9em;
+            flex: 1;
+            transition: background 0.3s ease;
+        }
+
+        .header input[type="text"]:focus {
+            background: #555;
+        }
+
+        .header button {
+            border: none;
+            padding: 10px 20px;
+            background: #d4af37; /* Gold color */
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .header button:hover {
+            background: #b38f00;
+            transform: scale(1.05);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 10px;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #d4af37; /* Gold accent */
+            padding-bottom: 5px;
+            display: inline-block;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .filter-form {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .filter-form select, .filter-form input[type="text"], .filter-form button {
+            padding: 10px;
+            font-size: 0.8em;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            color: #333;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-form select:focus, .filter-form input[type="text"]:focus {
+            border-color: #d4af37;
+        }
+
+        .filter-form button {
+            background-color: #d4af37;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .filter-form button:hover {
+            background-color: #b38f00;
+            transform: scale(1.05);
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .item-card {
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 250px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        .item-card:hover .item-image {
+            opacity: 0.8;
+        }
+
+        .item-content {
+            padding: 10px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .item-title {
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .item-button {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: none;
+            color: #fff;
+            background-color: #d4af37; /* Gold color */
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .item-button:hover {
+            background-color: #b38f00;
+            transform: scale(1.05);
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <section>
+        {% if messages %}
+          {% for m in messages %}
+            <p>{{m}}</p>
+          {% endfor %}
+        {% endif %}
+    </section>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>VaultMe Premium Store</h1>
+        <form method="get">
+            <input type="text" name="search" value="" placeholder="Category or item name">
+            <button type="submit">Search</button>
+        </form>
+        <div class="icons">
+            <a href="{% url 'cart_view' %}">Your Cart</a>
+            <a href="{% url 'orders' %}"><strong>Your Orders</strong></a>
+            <a href="{% url 'request_item'%}">Request item</a>
+            <a href="{% url 'seller_page'%}">Sell products</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2 class="section-title">Exclusive Collection</h2>
+
+        <!-- Filter Form -->
+        <form class="filter-form" method="get">
+            <select name="category">
+                <option value="">All Categories</option>
+                <option value="electronics">Electronics</option>
+                <option value="softwares">Software</option>
+                <option value="clothing">Clothing</option>
+                <option value="accessories">Accessories</option>
+                <option value="mobiles">Mobiles</option>
+                <option value="watches">Watches</option>
+                <option value="childs">Childs</option>
+                <option value="mens">Mens</option>
+                <option value="womens">Womens</option>
+                <!-- Add more categories as needed -->
+            </select>
+            <input type="text" name="search" placeholder="Search items..." value="{{ request.GET.search }}">
+            <button type="submit">Filter</button>
+        </form>
+
+        <div class="items-grid">
+            {% for item in data %}
+                <div class="item-card">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-image">
+                    <div class="item-content">
+                        <h3 class="item-title">{{ item.title }}</h3>
+                        <a href="{% url 'item_detail' item.pk %}" class="item-button">View</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p>We will bring your keywords to our inventory soon...</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

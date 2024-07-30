@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #4a90e2;
+            font-weight: 700;
+        }
+
+        form {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        form input, form button {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        form button {
+            background: #4a90e2;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        form button:hover {
+            background: #357ab8;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Your Notes</h1>
+    </header>
+
+    <form method="get">
+        <input type="text" name="search" value="" placeholder="Search your notes">
+        <button type="submit">Find</button>
+    </form>
+
+    <ul>
+        {% for note in data %}
+            <li>
+                <a href="{% url 'note_detail' note.pk %}">
+                    Subject: {{ note.subject }}, Chapter: {{ note.chapter }}
+                </a>
+            </li>
+        {% empty %}
+            <li>No data found!</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+    gsap.from("header h1", { duration: 1, y: -50, opacity: 0, ease: "bounce" });
+    gsap.from("form input, form button", { duration: 1, y: 50, opacity: 0, delay: 0.5, stagger: 0.2, ease: "power2.inOut" });
+    gsap.from("ul li", { duration: 1, x: 50, opacity: 0, delay: 0.3, stagger: 0.2, ease: "power2.inOut" });
+</script>
+
+</body>
+</html>

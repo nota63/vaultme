@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | VaultMe</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            padding-top: 20px;
+            overflow-x: hidden;
+        }
+
+        .profile-container {
+            background-color: #fff;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 15px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-header {
+            text-align: center;
+            color: #4267B2;
+            margin-bottom: 15px;
+            animation: slideInDown 0.8s ease-out forwards;
+        }
+
+        @keyframes slideInDown {
+            0% {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .profile-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5em;
+            margin: 0;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .profile-header h2 {
+            font-size: 1.2em;
+            margin: 0;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            object-fit: cover;
+            margin: 10px auto;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: fadeInScale 1s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 10px;
+            animation: fadeInUp 0.9s ease-out forwards;
+        }
+
+        .profile-info p {
+            font-size: 0.9em;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .profile-details {
+            padding: 10px 0;
+            border-top: 1px solid #eee;
+            font-size: 0.9em;
+            animation: fadeInUp 1.2s ease-out forwards;
+        }
+
+        .profile-details h3 {
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-item span {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .detail-item span.value {
+            color: #888;
+        }
+
+        .edit-button-container {
+            text-align: right;
+            margin-top: 15px;
+            animation: fadeInUp 1.3s ease-out forwards;
+        }
+
+        .edit-button {
+            background-color: #4267B2;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-button:hover {
+            background-color: #365899;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        {% for account in data %}
+        <div class="profile-header">
+            <h1>VaultMe Seller</h1>
+            <h2>{{ request.user.username }}</h2>
+            <img src="{{ account.profile_pic.url }}" alt="Profile Picture" class="profile-pic">
+        </div>
+
+        <div class="profile-info">
+            <p class="email">{{ account.email }}</p>
+        </div>
+
+        <div class="profile-details">
+            <h3>Account Details</h3>
+
+            <div class="detail-item">
+                <span>Bank Account:</span>
+                <span class="value">{{ account.bank_account }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span>Bank Name:</span>
+                <span class="value">{{ account.bank_name }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span>IFSC Code:</span>
+                <span class="value">{{ account.ifsc_code }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span>City:</span>
+                <span class="value">{{ account.city }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span>Pin Code:</span>
+                <span class="value">{{ account.pin_code }}</span>
+            </div>
+
+            <div class="detail-item">
+                <span>Date Created:</span>
+                <span class="value">{{ account.date_created|date:"d M Y, H:i" }}</span>
+            </div>
+        </div>
+
+        <div class="edit-button-container">
+            <a href="{% url 'edit_account' account.pk %}" class="edit-button">Edit Account</a>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

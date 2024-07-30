@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Project Files</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1F2937;
+            color: #F9FAFB;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 1rem auto;
+            padding: 1rem;
+        }
+        header {
+            background-color: #2D3748;
+            padding: 0.5rem;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .dropzone {
+            border: 2px dashed #4A5568;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            text-align: center;
+            background-color: #2D3748;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            font-size: 0.75rem;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        .dropzone.dragover {
+            background-color: #4A5568;
+            border-color: #38B2AC;
+        }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid #38B2AC;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .hidden {
+            display: none;
+        }
+        .tutorial-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            background-color: #38B2AC;
+            color: #F9FAFB;
+            font-weight: 700;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .btn:hover {
+            background-color: #319795;
+        }
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-weight: 700;
+        }
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #4A5568;
+            border-radius: 0.375rem;
+            background-color: #2D3748;
+            color: #F9FAFB;
+            font-size: 0.75rem;
+        }
+        .form-group input[type="file"] {
+            padding: 0.5rem 0;
+            display: none;
+        }
+
+        body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.message-success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #38A169; /* Green background color */
+    color: #FFFFFF; /* White text color */
+    padding: 0.75rem; /* Padding for spacing */
+    margin-bottom: 1rem; /* Margin bottom for spacing */
+    border-radius: 0.375rem; /* Rounded corners */
+    font-size: 0.875rem; /* Font size */
+    font-weight: 700; /* Bold font */
+}
+
+.message-success .checkmark {
+    display: inline-block;
+    margin-right: 0.5rem; /* Margin right for spacing */
+    font-size: 1rem; /* Font size for the checkmark */
+}
+
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Project File Upload</h1>
+    </header>
+
+    <main class="container">
+        <section class="mb-4">
+            <h2 class="text-lg font-semibold mb-2 text-center">How to Add Files</h2>
+            <div class="bg-gray-800 p-4 rounded shadow-lg text-center">
+                {% load static %}
+                <img src="{% static 'demo.png' %}" alt="Tutorial on how to add files" class="tutorial-image">
+                <p class="text-gray-400 mt-2">Please compress your project file into zip before uploading and then upload that zip file</p>
+            </div>
+        </section>
+
+        <!-- Display messages -->
+{% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+            <div class="message-success">
+                <span class="checkmark">✔</span>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+        <!-- Form -->
+        <form method="post" enctype="multipart/form-data" class="bg-gray-800 p-4 rounded shadow-lg space-y-4">
+            {% csrf_token %}
+            <div class="dropzone" id="dropzone">
+                <p class="text-gray-400">Drag & Drop files here or click to select files</p>
+                <!-- Hidden file input -->
+                <input type="file" name="files" id="fileInput" multiple>
+            </div>
+            <div class="form-group">
+                {{ form.project_name.label_tag }}
+                {{ form.project_name }}
+            </div>
+            <div class="form-group">
+                {{ form.requirements.label_tag }}
+                {{ form.requirements }}
+            </div>
+            <div class="form-group">
+                {{ form.what_does.label_tag }}
+                {{ form.what_does }}
+            </div>
+            <button type="submit" class="btn">
+                Upload
+            </button>
+            <a href="{% url 'view_projects' %}" class="btn">
+                View Projects
+            </a>
+            <a href="{% url 'analytics_view_projects' %}" class="btn">
+                Analytics
+            </a>
+            <a href="{% url 'code_editor' %}" class="btn">
+                Code editor
+            </a>
+            <a href="{% url 'pyjokes_view' %}" class="btn">
+                Dev jokes
+            </a>
+            <a href="{% url 'invite' %}" class="btn">
+                Invite
+            </a>
+        </form>
+    </main>
+
+    <!-- JavaScript for drag-and-drop functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('fileInput');
+
+            dropzone.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('dragover');
+            });
+
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('dragover');
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('dragover');
+                fileInput.files = e.dataTransfer.files;
+            });
+
+            fileInput.addEventListener('change', () => {
+                dropzone.classList.add('dragover');
+                setTimeout(() => dropzone.classList.remove('dragover'), 300);
+            });
+
+            // GSAP Animations
+            gsap.from("header", { duration: 1, y: -50, opacity: 0, ease: "power2.out" });
+            gsap.from(".container", { duration: 1, y: 50, opacity: 0, ease: "power2.out", delay: 0.5 });
+        });
+    </script>
+</body>
+</html>

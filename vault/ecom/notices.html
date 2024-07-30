@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice Board</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        /* Notice Board Header */
+        .notice-board-header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c3e50;
+        }
+
+        .notice-board-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            margin: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d4af37;
+            display: inline-block;
+        }
+
+        /* Notice Card */
+        .notice-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .notice-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .notice-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .notice-content {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .notice-attachment {
+            font-size: 0.95em;
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #f1f1f1;
+            transition: background-color 0.3s ease;
+        }
+
+        .notice-attachment:hover {
+            background-color: #d4af37;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Notice Board Header -->
+        <div class="notice-board-header">
+            <h1>Notice Board</h1>
+        </div>
+
+        <!-- Notices -->
+        {% for notice in data %}
+        <div class="notice-card">
+            <div class="notice-title">{{ notice.title }}</div>
+            <div class="notice-title">{{notice.date_posted}}</div>
+            <div class="notice-content">
+                {{ notice.content|safe }}
+            </div>
+            {% if notice.attachment_pdf %}
+            <a href="{{ notice.attachment_pdf.url }}" class="notice-attachment" download>Download Attachment</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

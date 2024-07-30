@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f4f7f6;
+            transition: background 0.3s ease;
+            margin: 0;
+            padding: 0;
+        }
+        .dark-theme {
+            background: #2c2c2c;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 450px;
+            margin: 10px auto;
+            padding: 10px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .dark-theme .container {
+            background: #3e3e3e;
+        }
+        h1, h2 {
+            margin-bottom: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        .form-group {
+            margin-bottom: 6px;
+        }
+        .form-control {
+            font-size: 12px;
+            border-radius: 3px;
+            padding: 6px;
+            transition: box-shadow 0.3s ease;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .btn-primary {
+            font-size: 12px;
+            padding: 4px 8px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .task-list {
+            font-size: 12px;
+            list-style: none;
+            padding: 0;
+        }
+        .task-list li {
+            margin-bottom: 6px;
+            padding: 8px;
+            background: #f9f9f9;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        .dark-theme .task-list li {
+            background: #4e4e4e;
+        }
+        .task-list li:hover {
+            background: #e9ecef;
+        }
+        .dark-theme .task-list li:hover {
+            background: #5e5e5e;
+        }
+        .task-info {
+            flex-grow: 1;
+            margin-right: 5px;
+        }
+        .icon {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            margin-left: 5px;
+            transition: fill 0.3s ease;
+        }
+        .delete-icon:hover {
+            fill: red;
+        }
+        .edit-icon:hover {
+            fill: blue;
+        }
+
+        .search-bar input {
+    flex-grow: 1;
+    margin-right: 3px;
+    padding: 2px 5px; /* Adjust padding for height */
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    height: 30px; /* Set a fixed height */
+    transition: box-shadow 0.3s ease;
+    font-size: 12px;
+}
+.search-bar input:focus {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+.search-bar button {
+    padding: 2px 6px;
+    background: #007bff;
+    border: none;
+    color: #fff;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+    font-size: 12px;
+    height: 30px; /* Match button height with input height */
+}
+.search-bar button:hover {
+    background: #0056b3;
+}
+
+
+
+
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 5px 10px;
+            background: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .dark-theme .theme-toggle {
+            background: #007bff;
+            color: #fff;
+        }
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #fff;
+        }
+        .dark-theme .spinner-container {
+            background: #2c2c2c;
+        }
+        .spinner {
+            border: 7px solid #f3f3f3;
+            border-top: 7px solid #007bff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            margin-left: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        footer {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 12px;
+            padding: 10px;
+            background: #f4f7f6;
+            border-top: 1px solid #e9ecef;
+            border-radius: 5px;
+        }
+        .dark-theme footer {
+            background: #2c2c2c;
+        }
+        footer img {
+            width: 50px;
+            height: auto;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="spinner-container">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading task manager...</div>
+    </div>
+
+    <div class="theme-toggle" onclick="toggleTheme()">Toggle Theme</div>
+
+    <div class="container" style="display: none;">
+        <h1>Add Task</h1>
+        {% if messages %}
+            <div class="alert alert-success">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.task_name.label_tag }}
+                {{ form.task_name }}
+            </div>
+            <div class="form-group">
+                {{ form.category.label_tag }}
+                {{ form.category }}
+            </div>
+            <div class="form-group">
+                {{ form.important.label_tag }}
+                {{ form.important }}
+            </div>
+            <div class="form-group">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+            </div>
+            <div class="form-group">
+                {{ form.date_to_accomplish.label_tag }}
+                {{ form.date_to_accomplish }}
+            </div>
+            <button type="submit" class="btn btn-primary">Add Task</button>
+        </form>
+        <hr>
+        <h2>My Tasks</h2>
+        <section class="search-bar">
+           <form method="get" class="form-inline">
+               <input type="text" name="search" class="form-control" placeholder="Search your tasks">
+               <button type="submit" class="btn btn-primary">Search</button>
+           </form>
+        </section>
+        <ul class="task-list">
+            {% for task in data %}
+                <li>
+                    <div class="task-info">
+                        <strong>{{ task.task_name }}</strong> - {{ task.category }} - {{ task.date_to_accomplish }}
+                        {% if task.important %}<span class="text-danger">(Important)</span>{% endif %}
+                        <p>{{ task.description }}</p>
+                    </div>
+                    <div>
+                        <a href="{% url 'edit_task' task.id %}">
+                            <svg class="icon edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75l11.07-11.07-3.75-3.75L3 17.25zm2 1.41l9.34-9.34 1.34 1.34-9.34 9.34H5v-1.34zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                        </a>
+                        <a href="{% url 'delete_task' task.id %}">
+                            <svg class="icon delete-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M3 6h18v2H3V6zm2 3h14l-1 12H6L5 9zm5 2v8h2v-8h-2zm4 0v8h2v-8h-2zM9 4V2h6v2h5v2H4V4h5z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </li>
+            {% empty %}
+            <li>No data found!</li>
+            {% endfor %}
+        </ul>
+        <footer>
+            Task manager provided by <img src="https://th.bing.com/th/id/OIP.xiHyuZk71__2r8mDXZODNgHaCI?rs=1&pid=ImgDetMain" alt="Company Logo">
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.querySelector('.spinner-container').style.display = 'none';
+                document.querySelector('.container').style.display = 'block';
+            }, 2000);
+        });
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+        }
+    </script>
+</body>
+</html>

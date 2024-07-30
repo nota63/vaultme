@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #2c3e50;
+            color: #ecf0f1;
+        }
+        .container {
+            padding: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #f1c40f;
+        }
+        .header button {
+            background-color: #e74c3c;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.6em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .header button:hover {
+            background-color: #c0392b;
+        }
+        .theme-toggle {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+        }
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .card {
+            background: #34495e;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card-icon {
+            font-size: 1.5em;
+            color: #e74c3c;
+            margin-bottom: 5px;
+        }
+        .card-title {
+            font-size: 0.6em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .card h2 {
+            margin: 0;
+            font-size: 1.0em;
+        }
+        .card button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s;
+            color: #ecf0f1;
+        }
+        .card button:hover {
+            color: #e74c3c;
+        }
+        .chart {
+            width: 100%;
+            height: 80px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: #2c3e50;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            color: #ecf0f1;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.0em;
+            cursor: pointer;
+            color: #ecf0f1;
+        }
+        .close:hover {
+            color: #e74c3c;
+        }
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ecf0f1;
+            font-size: 1.0em;
+            z-index: 9999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+        .spinner {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 5px solid #ecf0f1;
+            width: 10px;
+            height: 10px;
+            animation: spin 1s linear infinite;
+            margin-right: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @media (max-width: 500px) {
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+            .chart {
+                height: 100px;
+            }
+        }
+        body.light-theme {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        body.light-theme .card {
+            background: #ffffff;
+        }
+        body.light-theme .card-icon {
+            color: #e74c3c;
+        }
+        body.light-theme .header h1 {
+            color: #e74c3c;
+        }
+        body.light-theme .header button {
+            background-color: #e74c3c;
+            color: white;
+        }
+        body.light-theme .header button:hover {
+            background-color: #c0392b;
+        }
+        body.light-theme .modal-content {
+            background: #ffffff;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-spinner" id="loading-spinner">
+        <div class="spinner"></div>
+        Loading data...
+    </div>
+
+    <div class="container" style="display: none;">
+        <div class="header">
+            <h1>Your Contacts Cloud</h1>
+            <button onclick="downloadReport()">Download Report</button>
+            <svg class="theme-toggle" onclick="toggleTheme()" viewBox="0 0 24 24">
+
+<path fill="currentColor" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"></path>
+            </svg>
+        </div>
+        <div class="card-container">
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card-title">Total Contacts</div>
+                <h2>{{ total_contacts }}</h2>
+                <button onclick="showDetails('total')"><i class="fas fa-info-circle"></i></button>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="card-title">Active Contacts</div>
+                <h2>{{ active_contacts }}</h2>
+                <button onclick="showDetails('active')"><i class="fas fa-info-circle"></i></button>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-user-times"></i>
+                </div>
+                <div class="card-title">Inactive Contacts</div>
+                <h2>{{ inactive_contacts }}</h2>
+                <button onclick="showDetails('inactive')"><i class="fas fa-info-circle"></i></button>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <div class="card-title">Contacts by Type</div>
+                <canvas id="contactsByTypeChart" class="chart"></canvas>
+                <button onclick="showDetails('type')"><i class="fas fa-info-circle"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for detailed view -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Details</h2>
+            <p id="modal-content">Detailed information will be displayed here.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.getElementById('loading-spinner').style.display = 'none';
+                document.querySelector('.container').style.display = 'block';
+            }, 3000);
+        });
+
+        const ctx = document.getElementById('contactsByTypeChart').getContext('2d');
+        const chartData = {
+            labels: ['Type 1', 'Type 2', 'Type 3'],
+            datasets: [{
+                data: [30, 50, 20],
+                backgroundColor: ['#e74c3c', '#f1c40f', '#3498db'],
+                hoverOffset: 4
+            }]
+        };
+        const contactsByTypeChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: chartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#ecf0f1',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const modal = document.getElementById('modal');
+        const closeModal = document.getElementsByClassName('close')[0];
+
+        closeModal.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function showDetails(type) {
+            const content = document.getElementById('modal-content');
+            switch(type) {
+                case 'total':
+                    content.innerText = 'Total contacts details...';
+                    break;
+                case 'active':
+                    content.innerText = 'Active contacts details...';
+                    break;
+                case 'inactive':
+                    content.innerText = 'Inactive contacts details...';
+                    break;
+                case 'type':
+                    content.innerText = 'Contacts by type details...';
+                    break;
+                default:
+                    content.innerText = 'No details available.';
+            }
+            modal.style.display = 'flex';
+        }
+
+        function downloadReport() {
+            // Implement report download functionality
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
+    </script>
+</body>
+</html>

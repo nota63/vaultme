@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Page - VaultMe</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f0f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Main Container */
+        .seller-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Header inside the container */
+        .header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header img {
+            height: 40px;
+            border-radius: 50%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        /* Header Text */
+        .seller-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2em;
+            color: #1a1a1a;
+            margin-top: 60px; /* Adjusted margin to accommodate the logo */
+            margin-bottom: 15px;
+            animation: slideInFromTop 0.8s ease-out;
+        }
+
+        /* Section */
+        .seller-container section h5 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 10px;
+            animation: slideInFromTop 0.8s ease-out;
+        }
+
+        .seller-container section p {
+            font-size: 1em;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            animation: slideInFromTop 0.8s ease-out;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            background-color: #d4af37; /* Premium gold color */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 500;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            animation: buttonFadeIn 1.2s ease-out;
+        }
+
+        .btn:hover {
+            background-color: #b38f00;
+            transform: translateY(-2px);
+        }
+
+        /* Keyframe Animations */
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes buttonFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Container -->
+    <div class="seller-container">
+        <!-- Header with Logo inside container -->
+        <div class="header">
+            <a href="{% url 'view_account' %}">
+                <img src="https://th.bing.com/th/id/OIP.QFl5ItwwqbTdlkdf2DMtlAHaHa?rs=1&pid=ImgDetMain" alt="VaultMe Logo">
+            </a>
+        </div>
+
+        <h1>VaultMe Seller Page</h1>
+
+        <section>
+            <h5>Sell Your Items to Us</h5>
+            <p>You can sell your items to us in wholesale. Just update your items in the "Sell Items" section, and we will contact you whenever we need your items. We will offer you a good price.</p>
+        </section>
+
+        <a href="{% url 'agreement' %}" class="btn">Agreement</a>
+        <a href="{% url 'set_account' %}" class="btn">Set Up Account</a>
+        <a href="{% url 'sell_products' %}" class="btn">Sell products</a>
+        <a href="{% url 'notices' %}" class="btn">Notice board</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f0f1f6, #cfd9e0);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            max-width: 400px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://via.placeholder.com/1500') no-repeat center center;
+            background-size: cover;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 700;
+        }
+        p {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .cta {
+            margin-top: 20px;
+        }
+        .cta a {
+            text-decoration: none;
+            padding: 8px 15px;
+            background: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .cta a:hover {
+            background: #0056b3;
+        }
+        .countdown {
+            font-size: 1rem;
+            margin: 20px 0;
+            font-weight: 300;
+        }
+        .social-links {
+            margin-top: 20px;
+        }
+        .social-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2rem;
+            margin: 0 8px;
+        }
+        .social-links a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Coming Soon</h1>
+        <p>We're excited to share that something amazing is on its way. Thank you for your patience as we work to bring you the best experience.</p>
+        <div class="countdown">
+            <p>Stay tuned! The launch is just around the corner.</p>
+        </div>
+        <div class="cta">
+            <a href="/">Back to Home</a>
+        </div>
+        <div class="social-links">
+            <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+    <!-- Font Awesome for social icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

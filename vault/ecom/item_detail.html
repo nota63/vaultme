@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ item.title }} - VaultMe Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .header {
+            background-color: #2874f0; /* Flipkart Blue */
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .icons img {
+            width: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .icons img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        .container {
+            display: flex;
+            padding: 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .item-gallery {
+            flex: 1;
+            padding-right: 15px;
+        }
+
+        .item-main-image {
+            width: 100%;
+            max-width: 280px; /* Adjusted size */
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .item-main-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-details {
+            flex: 1;
+            padding-left: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .item-description {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .item-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e53935; /* Discount Price Color */
+            margin-bottom: 10px;
+        }
+
+        .item-discount-price {
+            font-size: 16px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .item-button {
+            padding: 10px 18px;
+            background-color: #ff5722; /* Flipkart Orange */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .item-button:hover {
+            background-color: #e64a19;
+            transform: scale(1.05);
+        }
+
+        .related-products {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .related-products h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .items-grid {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .item-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 15%;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .item-card img {
+            width: 50%;
+            height: auto;
+            border-bottom: 1px solid #eee;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-card img:hover {
+            transform: scale(1.1);
+        }
+
+        .item-card .item-content {
+            padding: 12px;
+        }
+
+        .item-card .item-title {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .item-card .item-button {
+            font-size: 12px;
+            padding: 8px 14px;
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .item-card .item-button:hover {
+            background-color: #e64a19;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <section>
+        {% if messages %}
+          {% for m in messages %}
+            <p>{{m}}</p>
+          {% endfor %}
+        {% endif %}
+    </section>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>VaultMe Store</h1>
+        <div class="icons">
+            <a href="{% url 'orders'%}" style="color: white; text-decoration: none;"><strong>Your orders</strong></a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Item Gallery -->
+        <div class="item-gallery">
+            <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-main-image">
+        </div>
+
+        <!-- Item Details -->
+        <div class="item-details">
+            <h2 class="item-title">{{ item.title }}</h2>
+            <p class="item-description">{{ item.description }}</p>
+            <div class="item-price">
+                {% if item.discount_price %}
+                    <span class="item-discount-price">${{ item.price }}</span>
+                    ${{ item.discount_price }}
+                {% else %}
+                    ${{ item.price }}
+                {% endif %}
+            </div>
+            <div class="button-group">
+                <a href="{% url 'address' item.id%}">
+                      <button class="item-button">Buy Now</button>
+                </a>
+                <a href="{% url 'add_to_cart' item.id%}">
+                    <button class="item-button">Add to cart</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    <div class="related-products">
+        <h2>Related Products</h2>
+        <div class="items-grid">
+            {% for related_item in related_items %}
+                <div class="item-card">
+                    <img src="{{ related_item.image.url }}" alt="{{ related_item.title }}">
+                    <div class="item-content">
+                        <h3 class="item-title">{{ related_item.title }}</h3>
+                        <a href="{% url 'item_detail' related_item.pk %}" class="item-button">View</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

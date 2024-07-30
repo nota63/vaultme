@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Information</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f4f4;
+            font-size: 0.75rem; /* Smaller font size */
+        }
+        .container {
+            max-width: 600px; /* Reduced max-width */
+            margin: auto;
+            padding: 10px; /* Reduced padding */
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px; /* Reduced margin-top */
+        }
+        .info-section {
+            border-bottom: 1px solid #ddd;
+            padding: 5px 0; /* Reduced padding */
+        }
+        .info-section:last-child {
+            border-bottom: none;
+        }
+        .info-section h2 {
+            font-size: 0.9rem; /* Smaller font size */
+            color: #333;
+            margin-bottom: 5px; /* Reduced margin-bottom */
+        }
+        .info-section p {
+            font-size: 0.75rem; /* Smaller font size */
+            color: #666;
+            margin: 3px 0; /* Reduced margin */
+        }
+
+
+
+        .info-section i {
+            margin-right: 5px; /* Reduced margin-right */
+            color: #007bff;
+        }
+        .accordion .card {
+            border: none;
+        }
+        .accordion .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 5px 10px; /* Reduced padding */
+        }
+        .accordion .card-body {
+            padding: 5px 10px; /* Reduced padding */
+        }
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-size: 1rem; /* Normal font size */
+        }
+        .spinner-border {
+            width: 1.5rem; /* Reduced size */
+            height: 1.5rem; /* Reduced size */
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="spinner" class="spinner-container">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <span>Getting system info...</span>
+    </div>
+    <div id="content" class="container" style="display: none;">
+        <div class="logo">
+            <img src="https://th.bing.com/th/id/OIP.xiHyuZk71__2r8mDXZODNgHaCI?rs=1&pid=ImgDetMain" height="30" alt="Logo" loading="lazy">
+        </div>
+        <h1 class="text-center">System Information</h1>
+        <div id="accordion" class="accordion">
+            <div class="card">
+                <div class="card-header" id="headingCPU">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseCPU" aria-expanded="true" aria-controls="collapseCPU">
+                            <i class="fas fa-microchip"></i> CPU
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseCPU" class="collapse show" aria-labelledby="headingCPU" data-parent="#accordion">
+                    <div class="card-body">
+                        <p><strong>Logical CPUs:</strong> {{ system_info.cpu_count_logical }}</p>
+                        <p><strong>Physical CPUs:</strong> {{ system_info.cpu_count_physical }}</p>
+                        <p><strong>CPU Times:</strong> {{ system_info.cpu_times }}</p>
+                        <p><strong>CPU Usage:</strong> {{ system_info.cpu_percent }}%</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingMemory">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseMemory" aria-expanded="false" aria-controls="collapseMemory">
+                            <i class="fas fa-memory"></i> Memory
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseMemory" class="collapse" aria-labelledby="headingMemory" data-parent="#accordion">
+                    <div class="card-body">
+                        <p><strong>Virtual Memory:</strong> {{ system_info.virtual_memory }}</p>
+                        <p><strong>Swap Memory:</strong> {{ system_info.swap_memory }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingDisk">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseDisk" aria-expanded="false" aria-controls="collapseDisk">
+                            <i class="fas fa-hdd"></i> Disk
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseDisk" class="collapse" aria-labelledby="headingDisk" data-parent="#accordion">
+                    <div class="card-body">
+                        <p><strong>Disk Partitions:</strong> {{ system_info.disk_partitions }}</p>
+                        <p><strong>Disk Usage:</strong> {{ system_info.disk_usage }}</p>
+                        <p><strong>Disk I/O:</strong> {{ system_info.disk_io }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingNetwork">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseNetwork" aria-expanded="false" aria-controls="collapseNetwork">
+                            <i class="fas fa-network-wired"></i> Network
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseNetwork" class="collapse" aria-labelledby="headingNetwork" data-parent="#accordion">
+                    <div class="card-body">
+                        <p><strong>Network Interfaces:</strong> {{ system_info.net_if_addrs }}</p>
+                        <p><strong>Network I/O:</strong> {{ system_info.net_io }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingBattery">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseBattery" aria-expanded="false" aria-controls="collapseBattery">
+                            <i class="fas fa-battery-full"></i> Battery
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseBattery" class="collapse" aria-labelledby="headingBattery" data-parent="#accordion">
+                    <div class="card-body">
+                        <p><strong>Battery Percentage:</strong> {{ system_info.battery.percent }}%</p>
+                        <p><strong>Power Plugged In:</strong> {{ system_info.battery.power_plugged }}</p>
+                        <p><strong>Battery Time Left:</strong>
+                            {% if system_info.battery.secsleft == -1 %}
+                                Charging
+                            {% elif system_info.battery.secsleft == -2 %}
+                                Unknown
+                            {% else %}
+                                {{ system_info.battery.secsleft }} seconds
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingBootTime">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseBootTime" aria-expanded="false" aria-controls="collapseBootTime">
+                            <i class="fas fa-clock"></i> System Boot Time
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseBootTime" class="collapse" aria-labelledby="headingBootTime" data-parent="#accordion">
+                    <div class="card-body">
+                        <p>{{ system_info.boot_time }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("spinner").style.display = "none";
+                document.getElementById("content").style.display = "block";
+            }, 3000); // 3 seconds
+        });
+    </script>
+</body>
+</html>

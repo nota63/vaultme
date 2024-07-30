@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Recommendation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <style>
+        body {
+            background: #f0f4f8;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin: 50px auto;
+            max-width: 800px;
+            padding: 0 15px;
+        }
+
+        .card {
+            padding: 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            padding: 10px;
+            font-size: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .card-body {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .btn-primary, .btn-explore {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary:hover, .btn-explore:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-explore {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-explore:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        h1, h2 {
+            font-weight: 700;
+            color: #333;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            font-size: 1em;
+        }
+
+        .text-muted {
+            color: #6c757d;
+        }
+
+        .green-text {
+            color: #28a745;
+            font-size: 1rem;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <h1 class="text-center">Career Recommendation System</h1>
+            <p class="green-text text-center">
+                This is a career recommendation system. Use pandas and scikit-learn to recommend; ensure your all decisions before starting that career.
+            </p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="skills">Enter your skills:</label>
+                    <input type="text" class="form-control" id="skills" name="skills" required placeholder="e.g. Python, Machine Learning">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn-primary">Get Recommendations</button>
+                </div>
+            </form>
+
+            <section class="text-center mt-4">
+                <a href="{% url 'job_posting' %}" class="btn-explore">Explore Jobs</a>
+            </section>
+
+            {% if recommended_careers %}
+                <h2 class="text-center mt-4">Recommended Careers:</h2>
+                {% for career in recommended_careers %}
+                    <div class="card mt-4">
+                        <div class="card-header">{{ career.career }}</div>
+                        <div class="card-body">
+                            <p><strong>Skills:</strong> {{ career.skills }}</p>
+                            <p><strong>Description:</strong> {{ career.description }}</p>
+                            <p><strong>Average Salary:</strong> {{ career.average_salary }}</p>
+                            <p><strong>Growth Prospects:</strong> {{ career.growth_prospects }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        gsap.from("h1", { duration: 1, y: -30, opacity: 0, ease: "power2.out" });
+        gsap.from(".card", { duration: 1, y: 30, opacity: 0, delay: 0.5, ease: "power2.out" });
+        gsap.from(".btn-primary", { duration: 1, scale: 0.8, opacity: 0, delay: 1, ease: "power2.out" });
+        gsap.from(".btn-explore", { duration: 1, scale: 0.8, opacity: 0, delay: 1.5, ease: "power2.out" });
+        gsap.from(".green-text", { duration: 1, y: 30, opacity: 0, delay: 0.3, ease: "power2.out" });
+    </script>
+
+</body>
+</html>

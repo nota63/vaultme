@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Order</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        section {
+            width: 400px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 2em;
+            margin: 1em;
+            text-align: center;
+            opacity: 0; /* Initial state for animation */
+            transform: scale(0.9); /* Initial state for animation */
+            overflow-y: auto;
+        }
+        h1 {
+            color: #dc3545; /* Red color for the heading */
+            margin-bottom: 1em;
+            font-size: 1.0em;
+        }
+        p {
+            font-size: 1em;
+            color: #333; /* Dark gray color for the paragraph */
+            margin-bottom: 1.5em;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
+        button {
+            background-color: #dc3545;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 0.7em;
+            padding: 0.75em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #c82333;
+        }
+        .emoji {
+            width: 60px;
+            height: 60px;
+            display: block;
+            margin: 0 auto 1em;
+        }
+        /* Custom scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Light gray track */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #007bff; /* Blue color */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <section>
+        <img src="https://th.bing.com/th/id/R.898b215eca2eda0c5a093a14288c98b9?rik=O7f1rU10XS%2ftyA&riu=http%3a%2f%2fcdn.shopify.com%2fs%2ffiles%2f1%2f1061%2f1924%2fproducts%2fVery_sad_emoji_icon_png_grande.png%3fv%3d1480481019&ehk=ccN0%2bcBpn96UxyayFMxQ%2bnhOOLq3DWWrgPjw7aNv7Sk%3d&risl=&pid=ImgRaw&r=0" alt="Sad Emoji" class="emoji">
+        <h1>We are sad you're cancelling your order {{item.item}}. Please tell us your feedback!</h1>
+    </section>
+
+    <section>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Cancel and Submit</button>
+        </form>
+    </section>
+    <br>
+     <a href="{% url 'orders'%}">
+                <button type="submit">My mood has been changed🙃</button>
+            </a>
+
+    <script>
+        gsap.to("section", {
+            duration: 1,
+            opacity: 1,
+            scale: 1,
+            ease: "bounce.out",
+            stagger: 0.5 // Stagger the animations for multiple sections
+        });
+    </script>
+
+</body>
+</html>

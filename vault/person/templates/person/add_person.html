@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Person</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .container {
+            padding: 20px;
+            width: 400px;
+            height: 400px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow-y: auto;
+            opacity: 0; /* Start hidden for animation */
+            transform: translateY(-20px); /* Start off-screen */
+            animation: fadeInUp 1s forwards; /* Animation for fade-in effect */
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        h1 {
+            font-size: 1.5em;
+            color: #f1c40f;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+        .intro-text {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+            line-height: 1.5;
+        }
+        form {
+            display: grid;
+            gap: 10px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-size: 0.5em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="file"],
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.8em;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-sizing: border-box; /* Ensure padding and border are included in the width */
+        }
+        .form-group input[type="text"]:hover,
+        .form-group input[type="email"]:hover,
+        .form-group input[type="file"]:hover,
+        .form-group select:hover {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            background-color: #3498db;
+            border: none;
+            color: white;
+            padding: 8px 12px; /* Compact padding */
+            border-radius: 5px;
+            font-size: 0.5em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+        .messages {
+            margin-top: 10px;
+            text-align: left;
+        }
+        .messages ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .messages li {
+            background: #e74c3c;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        .view-persons {
+            margin-top: 10px;
+        }
+        .view-persons a {
+            text-decoration: none;
+        }
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 7px;
+            text-align: center;
+        }
+        .loading-spinner i {
+            font-size: 3em;
+            color: #3498db;
+            animation: spin 1s infinite linear;
+        }
+        .loading-text {
+            color: #3498db;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-spinner" id="loadingSpinner">
+        <i class="fas fa-spinner"></i>
+        <div class="loading-text">Loading data...</div>
+    </div>
+    <div class="container" id="formContainer">
+        <h1>Add Person</h1>
+        <div class="intro-text">You can save persons data here in our cloud database, later you could access it.</div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_user">User</label>
+                {{ form.user }}
+            </div>
+            <div class="form-group">
+                <label for="id_profile_pic">Profile Picture</label>
+                {{ form.profile_pic }}
+            </div>
+            <div class="form-group">
+                <label for="id_name">Name</label>
+                {{ form.name }}
+            </div>
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                <label for="id_connection">Connection</label>
+                {{ form.connection }}
+            </div>
+            <div class="form-group">
+                <label for="id_social_id">Social ID</label>
+                {{ form.social_id }}
+            </div>
+            <div class="form-group">
+                <label for="id_type">Type</label>
+                {{ form.type }}
+            </div>
+            <div class="form-group">
+                <label for="id_special_name">Special Name</label>
+                {{ form.special_name }}
+            </div>
+            <button type="submit">Save</button>
+        </form>
+        {% if messages %}
+            <div class="messages">
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <div class="view-persons">
+            <a href="{% url 'view_persons' %}">
+                <button type="button">View Your Persons</button>
+            </a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const formContainer = document.getElementById('formContainer');
+
+            loadingSpinner.style.display = 'block';
+            formContainer.style.display = 'none';
+
+            setTimeout(() => {
+                loadingSpinner.style.display = 'none';
+                formContainer.style.display = 'block';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

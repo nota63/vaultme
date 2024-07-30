@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lora', serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            opacity: 0; /* Start hidden for animation */
+        }
+        header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        header img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        header div {
+            flex-grow: 1;
+        }
+        header h1 {
+            font-size: 1.4em;
+            color: #27ae60; /* Green color */
+            margin: 0;
+        }
+        header h3 {
+            font-weight: 400;
+            font-size: 1em;
+            color: #2ecc71; /* Lighter green color */
+            margin: 0;
+        }
+        section {
+            padding: 10px 0;
+        }
+        h2, .job-details span {
+            color: #3498db; /* Blue color for headings */
+        }
+        h2 {
+            font-size: 1.2em;
+        }
+        .job-details {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .job-details li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .job-details span {
+            font-weight: bold;
+            color: #3498db; /* Blue color for labels */
+        }
+        .job-details div {
+            flex-grow: 1;
+            padding-left: 8px;
+            font-size: 0.9em;
+        }
+        .apply-button {
+            display: block;
+            text-align: center;
+            margin: 15px 0;
+        }
+        .apply-button a {
+            display: inline-block;
+            background: #3498db;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .apply-button a:hover {
+            background: #2980b9;
+        }
+    </style>
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/gsap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="{{ job.image.url }}" alt="Company Logo">
+            <div>
+                <h1>{{ job.title }}</h1>
+                <h3>{{ job.company }} - {{ job.location }}</h3>
+            </div>
+        </header>
+        <section>
+            <h2>Job Details</h2>
+            <ul class="job-details">
+                <li><span>Description:</span><div>{{ job.description }}</div></li>
+                <li><span>Skills Required:</span><div>{{ job.skills_required }}</div></li>
+                <li><span>Extra Details:</span><div>{{ job.extra_details }}</div></li>
+                <li><span>Salary:</span><div>{{ job.salary }}</div></li>
+                <li><span>Email:</span><div><a href="mailto:{{ job.email }}">{{ job.email }}</a></div></li>
+            </ul>
+        </section>
+        <div class="apply-button">
+            <a href="{% url 'apply_job' job.id%}">Apply Now</a>
+        </div>
+    </div>
+    <script>
+        // GSAP Animation
+        gsap.to(".container", {
+            duration: 1,
+            opacity: 1,
+            scale: 1.05,
+            ease: "power3.out"
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attachments</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #4a90e2;
+            font-weight: 700;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0; /* Initially hidden */
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input[type="file"], textarea, button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #357ab8;
+            transform: scale(1.05);
+        }
+        .attachment-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .attachment-item:hover {
+            background-color: #e9ecef;
+            transform: scale(1.02);
+        }
+        .attachment-item a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .attachment-item a:hover {
+            text-decoration: underline;
+        }
+        .attachment-description {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Attach Your Files to Your Homework</h1>
+
+    <section>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit"><i class="fas fa-paperclip"></i> Attach</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>Your Attachments for {{ assignment.title }}</h2>
+        {% if data %}
+            <ul class="attachment-list">
+                {% for a in data %}
+                    <li class="attachment-item">
+                        <div>
+                            <a href="{{ a.add_attachments.url }}" target="_blank">{{ a.add_attachments.name }}</a>
+                            <p class="attachment-description">{{ a.description }}</p>
+                            <p>Attached on : {{ a.date_attached }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No attachments found.</p>
+        {% endif %}
+    </section>
+</div>
+
+<script>
+    gsap.to(".container", {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power2.out",
+        delay: 0.5
+    });
+
+    gsap.from("form, .attachment-item", {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+        delay: 0.7,
+        ease: "power2.out",
+        stagger: 0.2
+    });
+</script>
+
+</body>
+</html>

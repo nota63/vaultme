@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Assignment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #bbb 1px solid;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        h4 {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        section {
+            background: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section h2 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form input, form button {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        form button {
+            background: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background: #555;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li span {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            background: #dff0d8;
+            border: 1px solid #d0e9c6;
+            border-radius: 4px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Add Assignment</h1>
+    </header>
+
+    <div class="container">
+
+        <section>
+            {% if messages %}
+              <div class="message">
+                {% for m in messages %}
+                  <p>{{m}}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+        </section>
+
+        <section>
+            <h4>List your assignments here to be productive and loyal to your studies</h4>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <section>
+    <h2>Your Pending Work!</h2>
+     <form method="get">
+         <input type="text" name="search" value="" placeholder="search by title">
+         <button type="submit">find</button>
+     </form>
+    <p>Total: {{ data|length }}</p>
+    {% for w in data %}
+    <ul>
+        <li>
+            <span><strong>Title:</strong> {{ w.title }}</span>
+            <span><strong>Subject:</strong> {{ w.subject }}</span>
+            <span><strong>Attachments:</strong> <a href="{{ w.attachments.url }}" target="_blank">View File</a></span>
+            <span><strong>Due on:</strong> {{ w.due_on }}</span>
+            <a href="{% url 'mark' w.id%}">
+                <span><strong>Status Completed:</strong> {{ w.is_completed }}</span>
+            </a>
+            <span><strong>Listed:</strong> {{ w.listed }}</span>
+            <a href="{% url 'delete_assignment' w.id%}">
+                <button type="submit">Delete</button>
+            </a>
+            <a href="{% url 'edit_assignments' w.id%}">
+                <button type="submit">Edit</button>
+            </a>
+
+            <a href="{% url 'do_work' w.id%}">
+                <button type="submit">work</button>
+            </a>
+
+            <a href="{% url 'attachments' w.id%}">
+                <button type="submit">attachments?</button>
+            </a>
+
+            <!-- WhatsApp Share Button -->
+            <a href="https://wa.me/?text={{ w.title }}%20-%20{{ w.subject }}%20-%20{{ w.attachments.url }}" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="green">
+                    <path d="M12 0C5.383 0 0 5.383 0 12c0 2.096.538 4.117 1.558 5.93L0 24l6.333-1.553C8.113 23.468 10.053 24 12 24c6.617 0 12-5.383 12-12S18.617 0 12 0zm6.847 16.518c-.283.787-1.581 1.453-2.217 1.453-.575 0-1.053-.003-2.11-.672-.907-.558-1.648-1.218-3.297-3.013-1.303-1.415-1.852-2.515-1.852-3.378 0-.726.343-1.501 1.019-2.229.29-.302.657-.353.87-.353.269 0 .597.063.823.269.319.29 1.125 1.404 1.222 1.576.098.173.169.282.085.471-.086.188-.168.271-.316.419-.242.241-.484.542-.484.914 0 .372.224.732.312.877.086.146 1.717 2.689 4.085 3.676.487.203.869.312 1.206.439.246.093.496.075.681-.14.206-.235.801-.896 1.065-1.202.259-.302.522-.267.857-.164.328.102 2.089.984 2.366 1.161.284.179.471.268.541.421.072.154.072.877-.21 1.664z"/>
+                </svg>
+            </a>
+            <!-- Facebook Share Button -->
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ w.attachments.url }}" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="blue">
+                    <path d="M12 2.04c-5.515 0-10 4.486-10 10 0 4.998 3.657 9.12 8.438 9.878v-6.99h-2.54v-2.889h2.54v-2.169c0-2.507 1.493-3.89 3.773-3.89 1.094 0 2.238.195 2.238.195v2.462h-1.261c-1.242 0-1.63.772-1.63 1.563v1.839h2.773l-.443 2.889h-2.33v6.99c4.781-.758 8.438-4.88 8.438-9.878 0-5.514-4.485-10-10-10z"/>
+                </svg>
+            </a>
+        </li>
+    </ul>
+    {% empty%}
+     No assignments found!
+    {% endfor %}
+</section>
+
+
+</body>
+</html>
