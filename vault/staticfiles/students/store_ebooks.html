@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Store Ebooks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #4a90e2;
+            margin: 20px 0;
+        }
+
+        section {
+            width: 90%;
+            max-width: 800px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form input, form button {
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        form button {
+            background: #4a90e2;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        form button:hover {
+            background: #357ab8;
+        }
+
+        form a {
+            text-decoration: none;
+            color: #4a90e2;
+            margin-top: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul a {
+            display: block;
+            background: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: #333;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        ul a:hover {
+            background: #4a90e2;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>You can store your ebooks here in PDF form</h2>
+
+    <section>
+        {% if messages %}
+            <div class="message">
+                {% for m in messages %}
+                    <p>{{ m }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+
+    <section>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>Your Ebooks</h2>
+        <form method="get">
+            <input type="text" name="search" value="" placeholder="Search your e-books..">
+            <button type="submit">Find</button>
+        </form>
+        {% for ebook in data %}
+            <ul>
+                <a href="{% url 'ebook_detail' ebook.pk %}">
+                    {{ ebook.name }} : {{ ebook.subject }}
+                </a>
+            </ul>
+        {% empty %}
+            <p>No data found!</p>
+        {% endfor %}
+    </section>
+
+    <script>
+        gsap.from("h2", { duration: 1, y: -30, opacity: 0, ease: "power2.out" });
+        gsap.from("form", { duration: 1, y: 30, opacity: 0, delay: 0.5, ease: "power2.out" });
+        gsap.from("ul a", { duration: 1, y: 30, opacity: 0, delay: 1, stagger: 0.2, ease: "power2.out" });
+    </script>
+
+</body>
+</html>

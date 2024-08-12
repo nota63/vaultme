@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Your Project</title>
+    <!-- Link to Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        section {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        p {
+            font-size: 0.875rem;
+            margin-bottom: 5px;
+        }
+        strong {
+            display: block;
+            margin: 10px 0;
+            font-size: 1rem;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        form button {
+            background-color: #4A90E2;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        form button:hover {
+            background-color: #357ABD;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        {% if messages %}
+            {% for m in messages %}
+                <p>{{ m }}</p>
+            {% endfor %}
+        {% endif %}
+    </section>
+
+    <strong>
+        Upload your project with live link and connect to other developers
+    </strong>
+
+    <section>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Share</button>
+        </form>
+    </section>
+
+    <script>
+        // GSAP Animations
+        gsap.from('section', { opacity: 0, y: 50, duration: 0.5, stagger: 0.2 });
+        gsap.from('strong', { opacity: 0, y: 20, duration: 0.5, delay: 0.5 });
+        gsap.from('form button', { opacity: 0, scale: 0.5, duration: 0.5, delay: 1 });
+    </script>
+</body>
+</html>

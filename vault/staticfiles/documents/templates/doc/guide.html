@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Upload and Security Guide</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            padding: 10px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .card {
+            margin-bottom: 15px;
+            border: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .card-body {
+            padding: 0.8rem;
+            font-size: 0.8em;
+        }
+        .step {
+            margin-bottom: 8px;
+        }
+        .svg-icon {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+        }
+        .svg-icon.upload {
+            fill: #28a745;
+        }
+        .svg-icon.delete {
+            fill: #dc3545;
+        }
+        .svg-icon.download {
+            fill: #007bff;
+        }
+        .btn-sm {
+            font-size: 0.7em;
+            padding: 3px 7px;
+        }
+        .list-group-item {
+            padding: 8px 12px;
+            font-size: 0.7em;
+        }
+        .animated {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .animated.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h4>Document Upload and Security Guide</h4>
+        <div class="card" id="step1">
+            <div class="card-header">
+                Step-by-Step Guide to Uploading Documents
+            </div>
+            <div class="card-body">
+                <div class="step">
+                    <strong>Step 1:</strong> Click the upload icon to choose your document.
+                    <svg class="svg-icon upload" viewBox="0 0 20 20">
+                        <path d="M10,0L10,0c-0.4,0-0.8,0.3-1.2,0.7L5.7,3.8c-0.6,0.6-0.7,1.4-0.3,2.2C5.9,6.5,6.4,6.9,7,7h0.6v8.7c0,0.7,0.5,1.2,1.2,1.2h2.4c0.7,0,1.2-0.5,1.2-1.2V7H13c0.6,0,1.1-0.4,1.3-1.1c0.4-0.8,0.3-1.6-0.3-2.2L11.2,0.7C10.8,0.3,10.4,0,10,0z M5,16H4c-0.6,0-1,0.4-1,1v2c0,0.6,0.4,1,1,1h12c0.6,0,1-0.4,1-1v-2c0-0.6-0.4-1-1-1h-1v-7H5V16z"></path>
+                    </svg>
+                </div>
+                <div class="step">
+                    <strong>Step 2:</strong> Fill in the required fields in the upload form, such as the document name, type, country of origin, and nominee details.
+                </div>
+                <div class="step">
+                    <strong>Step 3:</strong> Click the submit button to upload your document. Ensure the document is within the allowed file size and type.
+                </div>
+                <div class="step">
+                    <strong>Step 4:</strong> Your document will be displayed in the list below where you can view, download, or delete it.
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="step2">
+            <div class="card-header">
+                Document Security Tips
+            </div>
+            <div class="card-body">
+                <div class="step">
+                    <strong>Tip 1:</strong> Ensure you are logged in before uploading documents. This ensures only authorized users can access your documents.
+                </div>
+                <div class="step">
+                    <strong>Tip 2:</strong> Only share your documents with trusted parties. Avoid sharing links or files through insecure channels.
+                </div>
+                <div class="step">
+                    <strong>Tip 3:</strong> Use strong passwords to protect your account. Enable two-factor authentication if available.
+                </div>
+                <div class="step">
+                    <strong>Tip 4:</strong> Regularly update your documents and remove outdated ones to minimize risks.
+                    <svg class="svg-icon delete" viewBox="0 0 20 20">
+                        <path d="M14.5,3h-2.5V2.5c0-0.4-0.2-0.7-0.5-1S10.4,1,10,1S9.3,1.2,9,1.5S8.5,2.1,8.5,2.5V3H6c-0.6,0-1,0.4-1,1c0,0.6,0.4,1,1,1h0.3L6.5,16c0,0.5,0.2,0.9,0.5,1.2S7.5,18,8,18h4c0.5,0,0.9-0.2,1.2-0.5S14.5,16.5,14.5,16l0.2-11H14c0.6,0,1-0.4,1-1C15.5,3.4,15.1,3,14.5,3z M10,4.5c0-0.4,0.2-0.7,0.5-1S11.4,3,11.5,3.5S11.7,4.5,11.5,4.5H10.5H10z M10.5,6.5c0,0.6-0.4,1-1,1S8.5,7.1,8.5,6.5S8.9,5.5,9.5,5.5S10.5,5.9,10.5,6.5z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="step3">
+            <div class="card-header">
+                Documents List
+            </div>
+            <div class="card-body">
+                <!-- Example document card -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Document Name</h5>
+                        <p class="card-text">Document Type: <strong>Government Document</strong></p>
+                        <p class="card-text">Person Name: <strong>John Doe</strong></p>
+                        <p class="card-text">Country: <strong>USA</strong></p>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-outline-primary btn-sm">View</button>
+                            <button class="btn btn-outline-danger btn-sm">Delete
+                                <svg class="svg-icon delete" viewBox="0 0 20 20">
+                                    <path d="M14.5,3h-2.5V2.5c0-0.4-0.2-0.7-0.5-1S10.4,1,10,1S9.3,1.2,9,1.5S8.5,2.1,8.5,2.5V3H6c-0.6,0-1,0.4-1,1c0,0.6,0.4,1,1,1h0.3L6.5,16c0,0.5,0.2,0.9,0.5,1.2S7.5,18,8,18h4c0.5,0,0.9-0.2,1.2-0.5S14.5,16.5,14.5,16l0.2-11H14c0.6,0,1-0.4,1-1C15.5,3.4,15.1,3,14.5,3z M10,4.5c0-0.4,0.2-0.7,0.5-1S11.4,3,11.5,3.5S11.7,4.5,11.5,4.5H10.5H10z M10.5,6.5c0,0.6-0.4,1-1,1S8.5,7.1,8.5,6.5S8.9,5.5,9.5,5.5S10.5,5.9,10.5,6.5z"></path>
+                                </svg>
+                            </button>
+                            <button class="btn btn-outline-primary btn-sm">Download
+                                <svg class="svg-icon download" viewBox="0 0 20 20">
+                                    <path d="M10,0L10,0c-0.4,0-0.8,0.3-1.2,0.7L5.7,3.8c-0.6,0.6-0.7,1.4-0.3,2.2C5.9,6.5,6.4,6.9,7,7h0.6v8.7c0,0.7,0.5,1.2,1.2,1.2h2.4c0.7,0,1.2-0.5,1.2-1.2V7H13c0.6,0,1.1-0.4,1.3-1.1c0.4-0.8,0.3-1.6-0.3-2.2L11.2,0.7C10.8,0.3,10.4,0,10,0z M5,16H4c-0.6,0-1,0.4-1,1v2c0,0.6,0.4,1,1,1h12c0.6,0,1-0.4,1-1v-2c0-0.6-0.4-1-1-1h-1v-7H5V16z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- More document cards can be added here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle showing cards
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                setTimeout(() => {
+                    card.classList.add('show');
+                }, 300); // Delay to start the animation
+            });
+        });
+    </script>
+</body>
+</html>

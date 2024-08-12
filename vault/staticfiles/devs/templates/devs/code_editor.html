@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Editor python</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            transition: background-color 0.3s;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .theme-switcher {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+
+        .theme-switcher label {
+            margin-right: 5px;
+            line-height: 20px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            gap: 10px;
+        }
+
+        .file-explorer {
+            width: 200px;
+            background-color: #f0f0f0;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .editor {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .code-editor, .output-console {
+            position: relative;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-editor {
+            background-color: #fff;
+            min-height: 100px;
+        }
+
+        .output-console {
+            background-color: #333;
+            color: #fff;
+            min-height: 150px;
+            padding: 5px;
+            overflow: auto;
+        }
+
+        .btn-save {
+            display: block;
+            margin: 10px auto;
+        }
+
+        .resizable {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .resizable .resizer {
+            width: 10px;
+            height: 10px;
+            background: #333;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            cursor: se-resize;
+        }
+
+        .resizable .resizer:hover {
+            background: #666;
+        }
+
+        .dark-theme {
+            --background-color: #1e1e1e;
+            color: #dcdcdc;
+        }
+
+        .dark-theme .output-console {
+            background-color: #000;
+        }
+
+        .light-theme {
+            --background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .light-theme .output-console {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Code Editor python</h1>
+        </div>
+        <div class="theme-switcher">
+            <label for="theme-toggle">Switch Theme:</label>
+            <input type="checkbox" id="theme-toggle">
+        </div>
+        <div class="main-content">
+            <div class="file-explorer">
+                <!-- File management controls and list here -->
+                <button id="save-code" class="btn btn-save btn-primary">Save Project</button>
+            </div>
+            <div class="editor">
+                <div class="code-editor resizable">
+                    <textarea id="code" name="code"></textarea>
+                    <button id="run-code" class="btn btn-primary">Run Code</button>
+                    <div class="resizer"></div>
+                </div>
+                <div id="output" class="output-console resizable">
+                    <div class="resizer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/addon/selection/active-line.min.js"></script>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+            lineNumbers: true,
+            mode: 'python',
+            theme: 'dracula',
+            matchBrackets: true,
+            styleActiveLine: true
+        });
+
+        document.getElementById('run-code').addEventListener('click', function() {
+            fetch('', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ code: editor.getValue() })
+            })
+            .then(response => response.json())
+            .then(data => {
+                var outputDiv = document.getElementById('output');
+                outputDiv.innerHTML = `<strong>Output:</strong><br>${data.output.replace(/\n/g, '<br>')}`;
+            });
+        });
+
+        document.getElementById('theme-toggle').addEventListener('change', function() {
+            if (this.checked) {
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+            } else {
+                document.body.classList.add('light-theme');
+                document.body.classList.remove('dark-theme');
+            }
+        });
+
+        // Resize functionality
+        const resizableElements = document.querySelectorAll('.resizable');
+        resizableElements.forEach(el => {
+            const resizer = el.querySelector('.resizer');
+            let startX, startY, startWidth, startHeight;
+
+            resizer.addEventListener('mousedown', e => {
+                startX = e.clientX;
+                startY = e.clientY;
+                startWidth = parseInt(document.defaultView.getComputedStyle(el).width, 10);
+                startHeight = parseInt(document.defaultView.getComputedStyle(el).height, 10);
+                document.documentElement.addEventListener('mousemove', resize);
+                document.documentElement.addEventListener('mouseup', stopResize);
+            });
+
+            function resize(e) {
+                el.style.width = (startWidth + e.clientX - startX) + 'px';
+                el.style.height = (startHeight + e.clientY - startY) + 'px';
+            }
+
+            function stopResize() {
+                document.documentElement.removeEventListener('mousemove', resize);
+                document.documentElement.removeEventListener('mouseup', stopResize);
+            }
+        });
+    </script>
+</body>
+</html>

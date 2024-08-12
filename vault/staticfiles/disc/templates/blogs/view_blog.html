@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loading-spinner {
+            border: 2px solid #ccc;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .container {
+            padding: 20px;
+        }
+        .search-form {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .search-form input[type="text"] {
+            width: 150px;
+            padding: 5px;
+            font-size: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .search-form button {
+            padding: 5px 10px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 220px; /* Adjusted width */
+            height: 320px; /* Adjusted height */
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .card img {
+            width: 100%;
+            height: 120px; /* Adjusted for better fit */
+            object-fit: cover;
+        }
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            height: 200px; /* Set a fixed height for scrolling */
+        }
+        .card-title {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .card-text {
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        .card-meta {
+            font-size: 10px;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+        }
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .edit-button, .delete-button {
+            font-size: 10px;
+            padding: 2px 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .edit-button {
+            background-color: #3498db;
+            color: white;
+        }
+        .delete-button {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .comment-form, .reply-form {
+            margin-top: 10px;
+        }
+        .comment-form input[type="text"], .reply-form input[type="text"] {
+            width: calc(100% - 12px);
+            padding: 5px;
+            font-size: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .comment-form button, .reply-form button {
+            padding: 5px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+        }
+        .comments-section {
+            margin-top: 10px;
+        }
+        .comment, .reply {
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        .floating-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #3498db;
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        .floating-icon a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .floating-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div style="margin-left: 10px;">Loading chats...</div>
+    </div>
+
+    <div class="container">
+        <!-- Search Form -->
+        <div class="search-form">
+            <form method="GET" action="{% url 'view_blogs' %}">
+                <input type="text" name="query" placeholder="Search blogs...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <!-- Display Blogs -->
+        <div class="card-container">
+            {% for blog in data %}
+            <div class="card">
+                {% if blog.image %}
+                <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title">{{ blog.title }}</h2>
+                    <p class="card-text">{{ blog.description|truncatewords:10 }}</p>
+                    <div class="card-meta">
+                        <span class="username">{{ blog.user.username }}</span>
+                        <span class="date">{{ blog.date_created|date:"M d, Y" }}</span>
+                    </div>
+
+                    <!-- Edit and Delete Actions -->
+                    {% if blog.user == request.user %}
+                    <div class="card-actions">
+                        <a href="{% url 'edit_blog' blog.id %}" class="edit-button">Edit</a>
+                        <form method="POST" action="{% url 'delete_blog' blog.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                    <!-- Comment Form -->
+                    <div class="comment-form">
+                        <form method="POST" action="{% url 'view_blogs' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="blog_id" value="{{ blog.id }}">
+                            {{ comment_form.as_p }}
+                            <button type="submit" name="comment">Post Comment</button>
+                        </form>
+                    </div>
+
+                    <!-- Display Comments -->
+                    <div class="comments-section">
+                        {% for comment in blog.comments.all %}
+                        <div class="comment">
+                            <p><strong>{{ comment.user.username }}:</strong> {{ comment.content }}</p>
+                            <!-- Reply Form -->
+                            <div class="reply-form">
+                                <form method="POST" action="{% url 'view_blogs' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                    {{ reply_form.as_p }}
+                                    <button type="submit" name="reply">Post Reply</button>
+                                </form>
+                            </div>
+                            <!-- Display Replies -->
+                            <div class="replies-section">
+                                {% for reply in comment.replies.all %}
+                                <div class="reply">
+                                    <p><strong>{{ reply.user.username }}:</strong> {{ reply.content }}</p>
+                                </div>
+                                {% empty %}
+                                <p>No replies yet.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>No comments yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Floating Add Blog Button -->
+    <div class="floating-icon">
+        <a href="{% url 'add_blog' %}" class="add-blog-button">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 11H21V13H13V21H11V13H3V11H11V3H13V11Z" fill="white"/>
+            </svg>
+        </a>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            document.getElementById('loading-overlay').style.opacity = '0';
+            setTimeout(() => document.getElementById('loading-overlay').style.display = 'none', 500);
+        });
+    </script>
+</body>
+</html>

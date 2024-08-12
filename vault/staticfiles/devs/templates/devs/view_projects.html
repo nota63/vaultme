@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Projects</title>
+    <!-- Link to premium Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1F2937;
+            color: #F9FAFB;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.light-theme {
+            background-color: #F9FAFB;
+            color: #1F2937;
+        }
+        header {
+            background-color: #2D3748;
+            padding: 0.5rem;
+            text-align: center;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        header h1 {
+            font-size: 1.25rem;
+            margin: 0;
+            color: #F9FAFB;
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        .container {
+            max-width: 600px;
+            max-height: 400px;
+            margin: 1rem auto;
+            padding: 1rem;
+            background-color: #2D3748;
+            border-radius: 0.275rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+        body.light-theme .container {
+            background-color: #FFFFFF;
+        }
+        .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border: 4px solid #2D3748;
+            border-radius: 50%;
+            border-top: 4px solid #38B2AC;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .search-bar, .filters {
+            margin-bottom: 0.75rem;
+        }
+        .search-bar input, .filters select, .filters button {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid #4A5568;
+            font-size: 0.75rem;
+            background-color: #1A202C;
+            color: #E2E8F0;
+        }
+        body.light-theme .search-bar input, body.light-theme .filters select, body.light-theme .filters button {
+            background-color: #F7FAFC;
+            color: #1A202C;
+        }
+        .search-bar button {
+            background-color: #E2E8F0;
+            color: #1F2937;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .search-bar button:hover {
+            background-color: #CBD5E0;
+        }
+        .filters button {
+            background-color: #38B2AC;
+            color: #F9FAFB;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filters button:hover {
+            background-color: #319795;
+        }
+        .project-card {
+            background-color: #2D3748;
+            border-radius: 0.175rem;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        body.light-theme .project-card {
+            background-color: #F7FAFC;
+            color: #1A202C;
+        }
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .project-card h2 {
+            font-size: 1rem;
+            margin: 0 0 0.5rem 0;
+            color: #E2E8F0;
+        }
+        body.light-theme .project-card h2 {
+            color: #1A202C;
+        }
+        .project-card p {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.65rem;
+        }
+        .project-card a {
+            color: #38B2AC;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        .project-card a:hover {
+            color: #319795;
+        }
+        .btn-back, .btn-delete {
+            background-color: #38B2AC;
+            color: #F9FAFB;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.55rem;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            margin-top: 0.75rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn-back:hover, .btn-delete:hover {
+            background-color: #319795;
+        }
+        .btn-delete {
+            background-color: #E53E3E;
+        }
+        .btn-delete:hover {
+            background-color: #C53030;
+        }
+        .delete-form {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.5rem;
+            }
+            .search-bar input, .filters select, .filters button {
+                font-size: 0.75rem;
+            }
+            .project-card {
+                padding: 0.5rem;
+            }
+            .btn-back, .btn-delete {
+                padding: 0.5rem;
+                font-size: 0.55rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Your Projects</h1>
+        <svg class="theme-toggle" id="theme-toggle" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 3a5 5 0 0 1 4.946 6.174c-.169-.033-.34-.074-.514-.106A5.978 5.978 0 0 0 8 8a5.978 5.978 0 0 0-3.432 1.068A5.013 5.013 0 0 1 8 3zm5.378-1.48a6.978 6.978 0 0 0-1.764-.12c-.36.057-.712.143-1.053.261A6.978 6.978 0 0 0 8 0a6.978 6.978 0 0 0-4.04 1.092C3.62 1.27 3.278 1.657 2.957 2.076A6.978 6.978 0 0 0 0 8a6.978 6.978 0 0 0 1.092 4.04C1.27 13.28 1.657 13.62 2.076 13.94A6.978 6.978 0 0 0 8 16a6.978 6.978 0 0 0 4.04-1.092c.33-.418.712-.805 1.093-1.099A6.978 6.978 0 0 0 16 8a6.978 6.978 0 0 0-1.092-4.04c-.294-.388-.681-.741-1.092-1.027z"/>
+        </svg>
+    </header>
+
+    <main class="container">
+        <div class="spinner"></div>
+        <div class="search-bar">
+            <form method="get" action="{% url 'view_projects' %}">
+                <input type="text" name="search" placeholder="Search projects by name" value="{{ request.GET.search }}">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <div class="filters">
+            <form method="get" action="{% url 'view_projects' %}">
+                <select name="filter">
+                    <option value="">-- Select Filter --</option>
+                    <option value="latest" {% if request.GET.filter == 'latest' %}selected{% endif %}>Latest</option>
+                    <option value="oldest" {% if request.GET.filter == 'oldest' %}selected{% endif %}>Oldest</option>
+                </select>
+                <button type="submit">Apply Filter</button>
+            </form>
+        </div>
+
+        {% if data %}
+            {% for project in data %}
+                <div class="project-card">
+                    <h2>{{ project.project_name }}</h2>
+                    <p><strong>Requirements:</strong> {{ project.requirements }}</p>
+                    <p><strong>Details:</strong> {{ project.what_does }}</p>
+                    <p><strong>Date Added:</strong> {{ project.date_added|date:"d M Y" }}</p>
+                    {% if project.files %}
+                        <p><strong>Files:</strong> <a href="{{ project.files.url }}" target="_blank">Download File</a></p>
+                    {% else %}
+                        <p><strong>Files:</strong> No files uploaded</p>
+                    {% endif %}
+                    <form class="delete-form" method="post" action="{% url 'delete_projects' project.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-delete">Delete</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No projects found.</p>
+        {% endif %}
+
+        <a href="{% url 'projects' %}" class="btn-back">Back to Upload</a>
+
+    </main>
+
+    <script>
+        // Theme toggle functionality
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const currentTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
+            localStorage.setItem('theme', currentTheme);
+        });
+
+        // Load saved theme from localStorage
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+            }
+        });
+
+        // GSAP animations
+        gsap.from('.spinner', { opacity: 0, duration: 1, ease: 'power1.inOut' });
+        gsap.from('.project-card', {
+            opacity: 0,
+            y: 20,
+            duration: 0.6,
+            ease: 'power1.out',
+            stagger: 0.2
+        });
+    </script>
+</body>
+</html>

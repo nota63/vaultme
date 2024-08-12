@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Your Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h4 {
+            color: #4a90e2;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form button, form a {
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 4px;
+            background: #4a90e2;
+            color: #fff;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease;
+            text-decoration: none;
+        }
+
+        form button:hover, form a:hover {
+            background: #357ab8;
+        }
+
+        form a {
+            background: #ddd;
+            color: #333;
+        }
+
+        form a:hover {
+            background: #bbb;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h4>Edit Your Notes</h4>
+
+    <section>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update</button>
+            <a href="{% url 'view_notes' %}"><strong>Back to notes</strong></a>
+        </form>
+    </section>
+</div>
+
+<script>
+    gsap.from(".container", { duration: 1, y: 50, opacity: 0, ease: "power2.inOut" });
+    gsap.from("h4", { duration: 1, y: -30, opacity: 0, delay: 0.5, ease: "power2.out" });
+    gsap.from("form button, form a", { duration: 1, y: 30, opacity: 0, delay: 1, stagger: 0.2, ease: "power2.out" });
+</script>
+
+</body>
+</html>

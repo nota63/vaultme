@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Set up Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1, h3 {
+            text-align: center;
+        }
+        h1 {
+            font-weight: 700;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #3498db; /* Blue color */
+        }
+        h3 {
+            font-weight: 400;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #e74c3c; /* Red color */
+        }
+        p {
+            font-weight: 300;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #7f8c8d;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form p {
+            width: 100%;
+        }
+        button {
+            background-color: #2ecc71;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Set up your profile as a student</h1>
+    <p>This is not a communicating app like other apps. The dashboard you will get is only for you; anyone can preview your profile or posts,
+        and you also can preview others'. It's a profile dashboard for students provided by VaultMe.
+        You can definitely view all the students who are using VaultMe or have created their student account here!</p>
+
+    <h3>Don't create a profile again if you have created one before. Update your previous profile instead!</h3>
+
+    <section>
+        {% if messages %}
+            {% for m in messages %}
+                <p>{{ m }}</p>
+            {% endfor %}
+        {% endif %}
+    </section>
+
+    <section>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update</button>
+        </form>
+    </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script>
+    gsap.from(".container", { duration: 1.5, opacity: 0, y: 50, ease: "power4.out" });
+    gsap.from("h1, p, h3, form, button", { duration: 1, opacity: 0, y: 20, ease: "power4.out", stagger: 0.2 });
+</script>
+
+</body>
+</html>
+

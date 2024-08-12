@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            font-family: 'Roboto', sans-serif;
+            color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+        }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #4CAF50;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-message {
+            font-size: 6px;
+            color: #aaa;
+            margin: 10px 0;
+        }
+        .welcome-message, .success-message {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .welcome-message {
+            font-size: 1.5em;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        .success-message {
+            font-size: 1em;
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+        .success-message img {
+            width: 14px;
+            height: 14px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <p class="loading-message">Loading...</p>
+        <div class="welcome-message">Thank You for Applying!</div>
+        <div class="success-message">
+            <!-- Checkmark SVG icon -->
+            <img src="https://th.bing.com/th/id/OIP.NHzn_JyPD-hYBxBS7MG2FQHaHa?rs=1&pid=ImgDetMain" alt="Checkmark">
+            Successfully Applied
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show spinner and loading message initially
+            const spinner = document.querySelector('.spinner');
+            const loadingMessage = document.querySelector('.loading-message');
+
+            // Hide spinner and loading message after 3 seconds, then show content
+            setTimeout(() => {
+                spinner.style.display = 'none';
+                loadingMessage.style.display = 'none';
+
+                const welcomeMessage = document.querySelector('.welcome-message');
+                const successMessage = document.querySelector('.success-message');
+
+                // Show content with fade-in effect
+                welcomeMessage.style.display = 'block';
+                successMessage.style.display = 'block';
+
+                welcomeMessage.style.opacity = 1;
+                successMessage.style.opacity = 1;
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f2f5;
+            color: #333;
+            overflow-x: hidden;
+        }
+        header {
+            background: #fff;
+            color: #333;
+            padding: 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        header img {
+            height: 50px;
+            border-radius: 50%;
+        }
+        header nav {
+            display: flex;
+            gap: 20px;
+        }
+        header nav a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        header nav a:hover {
+            color: #007bff;
+        }
+        .hero {
+            background: url('https://source.unsplash.com/random/1600x900') no-repeat center center/cover;
+            color: #fff;
+            text-align: center;
+            padding: 100px 20px;
+            margin-top: 80px; /* Adjust for fixed header */
+            position: relative;
+        }
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background: rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: 2rem;
+            margin: 0;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        .hero p {
+            font-size: 1rem;
+            margin: 10px 0;
+            z-index: 2;
+        }
+        .hero button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 500;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            z-index: 2;
+        }
+        .hero button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+        .container {
+            padding: 30px;
+            max-width: 1000px;
+            margin: 30px auto;
+            border-radius: 12px;
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .section-info {
+            background-color: green; /* Green color */
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .section-info h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .section-info strong {
+            display: block;
+            margin-top: 10px;
+        }
+        .card {
+            background: white;
+            border-radius: 2px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            padding: 10px;
+            text-align: center;
+            transition: box-shadow 0.3s, transform 0.3s;
+            background-color: transparent; /* Transparent background */
+        }
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            transform: translateY(-10px);
+        }
+        .card button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 500;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .card button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+        .social-icons {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .social-icons a {
+            color: #333;
+            font-size: 24px;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+        .social-icons a:hover {
+            color: #007bff;
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="{% url 'browse_profile' %}">
+            <img src="https://th.bing.com/th/id/OIP.tvaMwK3QuFxhTYg4PSNNVAHaHa?rs=1&pid=ImgDetMain" alt="Platform Logo">
+        </a>
+        <nav>
+            <a href="{% url 'create_notes' %}">Notes</a>
+            <a href="{% url 'wikipedia' %}">Wikipedia</a>
+            <a href="{% url 'translator' %}">Translator</a>
+            <a href="{% url 'grammar_check' %}">Grammar Check</a>
+            <a href="{% url 'store_ebooks' %}">Store Ebooks</a>
+            <a href="{% url 'career_recommendation' %}">Career Recommendation</a>
+            <a href="{% url 'add_assignments' %}">Assignments</a>
+            <a href="{% url 'assets' %}">Digital Assets</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Welcome back {{request.user.username}}</h1>
+        <p>Explore our tools and resources tailored for students.</p>
+    </div>
+
+    <div class="container">
+        <div class="section-info">
+            <h1>Hello {{ request.user.username }}, welcome back!</h1>
+            <strong>Your starter</strong>
+        </div>
+
+        <div class="card">
+            <a href="{% url 'create_notes' %}">
+                <button type="button">Notes</button>
+            </a>
+        </div>
+
+        <div class="card">
+            <a href="{% url 'wikipedia' %}">
+                <button type="button">Wikipedia</button>
+            </a>
+        </div>
+
+        <div class="card">
+            <a href="{% url 'translator' %}">
+                <button type="button">Translator</button>
+            </a>
+        </div>
+
+        <div class="card">
+            <a href="{% url 'grammar_check' %}">
+                <button type="button">Grammar Check</button>
+            </a>
+        </div>
+
+        <div class="card">
+            <a href="{% url 'store_ebooks' %}">
+                <button type="button">Store Ebooks</button>
+            </a>
+        </div>
+
+        <div class="card">
+            <a href="{% url 'career_recommendation' %}">
+                <button type="button">Career Recommendation</button>
+            </a>
+        </div>
+
+        <div class="card">
+            <a href="{% url 'add_assignments' %}">
+                <button type="button">Assignments</button>
+            </a>
+        </div>
+
+        <div class="card">
+            <a href="{% url 'assets' %}">
+                <button type="button">Digital Assets</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="social-icons">
+        <a href="https://github.com/yourprofile" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://instagram.com/yourprofile" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/yourphonenumber" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://facebook.com/yourprofile" target="_blank"><i class="fab fa-facebook"></i></a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+    <script>
+        gsap.from("header", { duration: 0.5, y: -50, opacity: 0, ease: "power4.out" });
+        gsap.from(".hero h1", { duration: 1, opacity: 0, y: 50, ease: "power4.out", delay: 0.5 });
+        gsap.from(".hero p", { duration: 1, opacity: 0, y: 30, ease: "power4.out", delay: 1 });
+        gsap.from(".hero button", { duration: 1, opacity: 0, y: 30, ease: "power4.out", delay: 1.5 });
+        gsap.from(".card", {
+            duration: 1,
+            opacity: 0,
+            y: 50,
+            stagger: 0.2,
+            ease: "power4.out",
+            delay: 2
+        });
+        gsap.from(".social-icons", { duration: 1, opacity: 0, y: 20, ease: "power4.out", delay: 2.5 });
+    </script>
+</body>
+</html>

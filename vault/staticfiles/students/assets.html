@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assets</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&display=swap">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        section {
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 1200px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            opacity: 0; /* Initially hidden */
+        }
+        .intro-section {
+            background-color: #007bff; /* Blue color */
+            color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        .intro-section h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .intro-section strong {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .intro-section p {
+            margin: 0;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .search-bar input:hover {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,0.3);
+        }
+        .search-bar button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .search-bar button:hover {
+            background-color: #0056b3;
+        }
+        .assets {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .asset-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: calc(25% - 10px);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            position: relative;
+            transition: transform 0.3s;
+            opacity: 0; /* Initially hidden */
+        }
+        .asset-item:hover {
+            transform: scale(1.03);
+        }
+        .asset-info {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .asset-info img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .asset-info span {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            width: 100%;
+            justify-content: center;
+        }
+        .action-buttons form,
+        .action-buttons a {
+            display: flex;
+            justify-content: center;
+        }
+        .action-buttons button,
+        .action-buttons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .action-buttons button.edit-button {
+            background-color: #28a745;
+        }
+        .action-buttons button.delete-button {
+            background-color: #dc3545;
+        }
+        .action-buttons a.download-button {
+            background-color: #ffc107;
+        }
+        .action-buttons a.share-button {
+            background-color: #6c757d;
+        }
+        .action-buttons i {
+            margin-right: 5px;
+        }
+        .messages {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="intro-section">
+        <h1>Cloud Storage for Digital Assets</h1>
+        <strong>VaultMe provides cloud storage for students to store their digital assets separately in all formats.</strong>
+        <p>Don't store illegal videos such as 18+.</p>
+    </section>
+
+    <section>
+        {% if messages %}
+            <div class="messages">
+                {% for m in messages %}
+                    <strong>{{ m }}</strong>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+
+    <section>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+    </section>
+
+    <section>
+        <h1>Hello {{ request.user.username }}, here are your digital assets:</h1>
+        <div class="search-bar">
+            <input type="text" placeholder="Search your assets..." id="searchInput">
+            <button type="button" onclick="filterAssets()">Search</button>
+        </div>
+        <ul class="assets" id="assetsList">
+            {% for a in data %}
+                <li class="asset-item">
+                    <div class="asset-info">
+                        {% if a.thumbnail %}
+                            <img src="{{ a.thumbnail.url }}" alt="{{ a.asset_name }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/100" alt="No Thumbnail">
+                        {% endif %}
+                        <span><strong>URL:</strong> <a href="{{ a.asset.url }}" target="_blank">{{ a.asset.url }}</a></span>
+                        <span><strong>Name:</strong> {{ a.asset_name }}</span>
+                        <span><strong>Type:</strong> {{ a.type }}</span>
+                        <span><strong>Description:</strong> {{ a.text }}</span>
+                        <span><strong>Date Added:</strong> {{ a.date_added }}</span>
+                    </div>
+                    <div class="action-buttons">
+                        <form method="post" action="{% url 'edit_assets' a.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="edit-button">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </form>
+                        <form method="post" action="{% url 'delete_assets' a.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-button">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                        </form>
+                        <a href="{{ a.asset.url }}" class="download-button" download>
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                        <a href="https://api.whatsapp.com/send?text={{ a.asset.url }}" class="share-button" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Share
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ a.asset.url }}" class="share-button" target="_blank">
+                            <i class="fab fa-facebook-f"></i> Share
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <script>
+        function filterAssets() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const assets = document.getElementsByClassName('asset-item');
+            Array.from(assets).forEach(asset => {
+                const assetName = asset.querySelector('.asset-info span:nth-child(3)').innerText.toLowerCase();
+                const assetType = asset.querySelector('.asset-info span:nth-child(4)').innerText.toLowerCase();
+                const assetDescription = asset.querySelector('.asset-info span:nth-child(5)').innerText.toLowerCase();
+                if (assetName.includes(input) || assetType.includes(input) || assetDescription.includes(input)) {
+                    asset.style.display = '';
+                } else {
+                    asset.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            gsap.to(".intro-section", { opacity: 1, duration: 1 });
+            gsap.to("section:not(.intro-section)", { opacity: 1, duration: 1, delay: 0.5, stagger: 0.2 });
+            gsap.to(".asset-item", { opacity: 1, duration: 1, delay: 1, stagger: 0.1 });
+        });
+    </script>
+
+</body>
+</html>

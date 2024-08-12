@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Posting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+    <style>
+        body {
+            background: #f0f4f8;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 15px;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 25px;
+            padding: 10px 15px;
+            width: 70%;
+            max-width: 400px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .btn-find, .btn-applied {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .btn-find:hover, .btn-applied:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .job-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            padding: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .job-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .job-company {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Latest Job Postings from Top Companies</h2>
+
+        <section>
+            <form method="get" class="form-group">
+                <input type="text" class="form-control" name="search" placeholder="Search by skills.." required>
+                <button type="submit" class="btn-find">Find</button>
+            </form>
+
+            {% if jobs %}
+                {% for job in jobs %}
+                    <div class="job-card">
+                        <a href="{% url 'job_detail' job.id %}" style="text-decoration: none; color: inherit;">
+                            <div class="job-title">Title: {{ job.title }}</div>
+                            <div class="job-company">Company: {{ job.company }} | Salary: {{ job.salary }}</div>
+                        </a>
+                    </div>
+                {% empty %}
+                    <p class="text-center">No jobs found associated with your keyword!</p>
+                {% endfor %}
+            {% endif %}
+        </section>
+
+        <section class="text-center mt-4">
+            <a href="{% url 'applied_jobs' %}" class="btn-applied">Applied Jobs</a>
+        </section>
+    </div>
+
+    <script>
+        gsap.from(".job-card", {
+            opacity: 0,
+            y: 20,
+            duration: 0.6,
+            stagger: 0.2
+        });
+
+        gsap.from(".btn-find, .btn-applied", {
+            opacity: 0,
+            scale: 0.9,
+            duration: 0.4,
+            delay: 0.3,
+            stagger: 0.2
+        });
+    </script>
+</body>
+</html>
